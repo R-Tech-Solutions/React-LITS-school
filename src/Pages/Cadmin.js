@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import './AdminPanel.css'; // You can create a separate CSS file for better styling
 
 const AdminPanel = () => {
     const [courses, setCourses] = useState([]);
@@ -13,17 +14,24 @@ const AdminPanel = () => {
         image: '',
     });
     const [editingCourse, setEditingCourse] = useState(null);
+    const [loading, setLoading] = useState(false);
+    const [searchQuery, setSearchQuery] = useState('');
+    const [errorMessage, setErrorMessage] = useState('');
 
     useEffect(() => {
         fetchCourses();
     }, []);
 
     const fetchCourses = async () => {
+        setLoading(true);
         try {
             const response = await axios.get('http://localhost:3001/api/courses');
             setCourses(response.data);
         } catch (error) {
-            console.error("Error fetching courses:", error);
+            setErrorMessage('Error fetching courses. Please try again.');
+            console.error('Error fetching courses:', error);
+        } finally {
+            setLoading(false);
         }
     };
 
@@ -42,6 +50,7 @@ const AdminPanel = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        setLoading(true);
         try {
             if (editingCourse) {
                 await axios.put(`http://localhost:3001/api/courses/${editingCourse}`, formData);
@@ -49,10 +58,21 @@ const AdminPanel = () => {
                 await axios.post('http://localhost:3001/api/courses', formData);
             }
             fetchCourses();
-            setFormData({ title: '', description: '', entry: '', commencement: '', structure: '', startDate: '', image: '' });
+            setFormData({
+                title: '',
+                description: '',
+                entry: '',
+                commencement: '',
+                structure: '',
+                startDate: '',
+                image: '',
+            });
             setEditingCourse(null);
         } catch (error) {
-            console.error("Error submitting course:", error);
+            setErrorMessage('Error submitting course. Please try again.');
+            console.error('Error submitting course:', error);
+        } finally {
+            setLoading(false);
         }
     };
 
@@ -62,39 +82,114 @@ const AdminPanel = () => {
     };
 
     const handleDelete = async (id) => {
-        try {
-            await axios.delete(`http://localhost:3001/api/courses/${id}`);
-            fetchCourses();
-        } catch (error) {
-            console.error("Error deleting course:", error);
+        if (window.confirm('Are you sure you want to delete this course?')) {
+            setLoading(true);
+            try {
+                await axios.delete(`http://localhost:3001/api/courses/${id}`);
+                fetchCourses();
+            } catch (error) {
+                setErrorMessage('Error deleting course. Please try again.');
+                console.error('Error deleting course:', error);
+            } finally {
+                setLoading(false);
+            }
         }
     };
 
+    const filteredCourses = courses.filter((course) =>
+        course.title.toLowerCase().includes(searchQuery.toLowerCase())
+    );
+
     return (
-        <div>
+        <div className="admin-panel">
             <h1>Admin Panel</h1>
-            <form onSubmit={handleSubmit}>
-                <input name="title" value={formData.title} onChange={handleInputChange} placeholder="Title" required />
-                <textarea name="description" value={formData.description} onChange={handleInputChange} placeholder="Description" required />
-                <input name="entry" value={formData.entry} onChange={handleInputChange} placeholder="Entry Requirements" required />
-                <input name="commencement" value={formData.commencement} onChange={handleInputChange} placeholder="Commencement" required />
-                <input name="structure" value={formData.structure} onChange={handleInputChange} placeholder="Structure" required />
-                <input name="startDate" value={formData.startDate} onChange={handleInputChange} placeholder="Start Date" required />
+
+            {errorMessage && <div className="error-message">{errorMessage}</div>}
+
+            <form onSubmit={handleSubmit} className="course-form">
+                <input
+                    name="title"
+                    value={formData.title}
+                    onChange={handleInputChange}
+                    placeholder="Course Title"
+                    required
+                />
+                <textarea
+                    name="description"
+                    value={formData.description}
+                    onChange={handleInputChange}
+                    placeholder="Course Description"
+                    required
+                />
+                <input
+                    name="entry"
+                    value={formData.entry}
+                    onChange={handleInputChange}
+                    placeholder="Entry Requirements"
+                    required
+                />
+                <input
+                    name="commencement"
+                    value={formData.commencement}
+                    onChange={handleInputChange}
+                    placeholder="Price"
+                    required
+                />
+                <input
+                    name="structure"
+                    value={formData.structure}
+                    onChange={handleInputChange}
+                    placeholder="Structure"
+                    required
+                />
+                <input
+                    name="startDate"
+                    value={formData.startDate}
+                    onChange={handleInputChange}
+                    placeholder="Start Date"
+                    required
+                />
                 <input type="file" onChange={handleImageChange} />
-                <button type="submit">{editingCourse ? 'Update' : 'Add'}</button>
+                <button type="submit" className="submit-button" disabled={loading}>
+                    {loading ? 'Submitting...' : editingCourse ? 'Update Course' : 'Add Course'}
+                </button>
             </form>
 
-            <h2>Courses</h2>
-            <div>
-                {courses.map((course) => (
-                    <div key={course._id}>
-                        <h3>{course.title}</h3>
-                        <img src={course.image} alt={course.title} style={{ width: '100px' }} />
-                        <p>{course.description}</p>
-                        <button onClick={() => handleEdit(course)}>Edit</button>
-                        <button onClick={() => handleDelete(course._id)}>Delete</button>
-                    </div>
-                ))}
+            <div className="search-bar">
+                <input
+                    type="text"
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                    placeholder="Search for courses..."
+                />
+            </div>
+
+            <h2>Courses List</h2>
+            <div className="courses-list">
+                {loading ? (
+                    <p>Loading...</p>
+                ) : filteredCourses.length > 0 ? (
+                    filteredCourses.map((course) => (
+                        <div key={course._id} className="course-item">
+                            <h3>{course.title}</h3>
+                            <img src={course.image} alt={course.title} className="course-image" />
+                            <p>{course.description}</p>
+                            <div className="actions">
+                                <button onClick={() => handleEdit(course)} className="edit-button">
+                                    Edit
+                                </button>
+                                <button
+                                    onClick={() => handleDelete(course._id)}
+                                    className="delete-button"
+                                >
+                                    Delete
+                                </button>
+                            </div>
+                        </div>
+                    ))
+                ) : (
+                    <p>No courses available.</p>
+                )}
             </div>
         </div>
     );

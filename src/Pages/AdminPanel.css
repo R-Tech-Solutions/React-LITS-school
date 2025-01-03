@@ -1,0 +1,80 @@
+.admin-panel {
+    padding: 20px;
+    font-family: Arial, sans-serif;
+}
+
+.course-form input,
+.course-form textarea,
+.course-form button {
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+}
+
+.submit-button {
+    background-color: #4CAF50;
+    color: white;
+    cursor: pointer;
+}
+
+.submit-button:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+}
+
+.error-message {
+    color: red;
+    margin-bottom: 10px;
+}
+
+.search-bar input {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 20px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+}
+
+.courses-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.course-item {
+    border: 1px solid #ccc;
+    padding: 15px;
+    border-radius: 5px;
+    width: calc(33% - 20px);
+    box-sizing: border-box;
+}
+
+.course-item img {
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+    margin-bottom: 10px;
+}
+
+.actions button {
+    margin: 5px;
+}
+
+.edit-button {
+    background-color: #fbc02d;
+    color: white;
+}
+
+.delete-button {
+    background-color: #e57373;
+    color: white;
+}
+
+.edit-button, .delete-button {
+    padding: 8px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}

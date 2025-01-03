@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import './AdminPanel1.css'; // Importing the CSS file
 
 const AdminPanel = () => {
     const [lecturers, setLecturers] = useState([]);
@@ -8,7 +9,7 @@ const AdminPanel = () => {
         subject: "",
         image: "",
     });
-    const [editingId, setEditingId] = useState(null); // To track which lecturer is being edited
+    const [editingId, setEditingId] = useState(null);
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
@@ -47,11 +48,9 @@ const AdminPanel = () => {
 
         try {
             if (editingId) {
-                // Update lecturer
                 await axios.put(`http://localhost:3001/api/lecturers/${editingId}`, formData);
                 setEditingId(null);
             } else {
-                // Add new lecturer
                 await axios.post("http://localhost:3001/api/lecturers", formData);
             }
 
@@ -85,46 +84,43 @@ const AdminPanel = () => {
     }
 
     return (
-        <div className="admin-panel" style={{ padding: "20px" }}>
-            <h1>Admin Panel</h1>
+        <div className="admin-panel">
+            <h1 className="panel-title">Admin Panel</h1>
 
-            <form onSubmit={handleSubmit} style={{ marginBottom: "20px" }}>
-                <div>
-                    <label>
-                        Name:
-                        <input
-                            type="text"
-                            name="name"
-                            value={formData.name}
-                            onChange={handleInputChange}
-                            required
-                        />
-                    </label>
+            <form onSubmit={handleSubmit} className="form-container">
+                <div className="form-group">
+                    <label>Name:</label>
+                    <input
+                        type="text"
+                        name="name"
+                        value={formData.name}
+                        onChange={handleInputChange}
+                        className="form-input"
+                        required
+                    />
                 </div>
-                <div>
-                    <label>
-                        Subject:
-                        <input
-                            type="text"
-                            name="subject"
-                            value={formData.subject}
-                            onChange={handleInputChange}
-                            required
-                        />
-                    </label>
+                <div className="form-group">
+                    <label>Subject:</label>
+                    <input
+                        type="text"
+                        name="subject"
+                        value={formData.subject}
+                        onChange={handleInputChange}
+                        className="form-input"
+                        required
+                    />
                 </div>
-                <div>
-                    <label>
-                        Image:
-                        <input
-                            type="file"
-                            accept="image/*"
-                            onChange={handleImageChange}
-                            required={!editingId} // Make the image required only when adding
-                        />
-                    </label>
+                <div className="form-group">
+                    <label>Image:</label>
+                    <input
+                        type="file"
+                        accept="image/*"
+                        onChange={handleImageChange}
+                        className="file-input"
+                        required={!editingId}
+                    />
                 </div>
-                <button type="submit" style={{ marginTop: "10px" }}>
+                <button type="submit" className="submit-btn">
                     {editingId ? "Update Lecturer" : "Add Lecturer"}
                 </button>
             </form>
@@ -132,39 +128,28 @@ const AdminPanel = () => {
             <div className="lecturers-list">
                 <h2>Lecturers</h2>
                 {lecturers.map((lecturer) => (
-                    <div
-                        key={lecturer._id}
-                        style={{
-                            display: "flex",
-                            alignItems: "center",
-                            justifyContent: "space-between",
-                            border: "1px solid #ccc",
-                            borderRadius: "8px",
-                            padding: "10px",
-                            marginBottom: "10px",
-                        }}
-                    >
-                        <div style={{ display: "flex", alignItems: "center" }}>
+                    <div key={lecturer._id} className="lecturer-card">
+                        <div className="lecturer-info">
                             <img
                                 src={lecturer.image}
                                 alt={lecturer.name}
-                                style={{ width: "50px", height: "50px", borderRadius: "50%", marginRight: "10px" }}
+                                className="lecturer-image"
                             />
                             <div>
                                 <h4>{lecturer.name}</h4>
                                 <p>{lecturer.subject}</p>
                             </div>
                         </div>
-                        <div>
+                        <div className="lecturer-actions">
                             <button
                                 onClick={() => handleEdit(lecturer)}
-                                style={{ marginRight: "10px", padding: "5px 10px" }}
+                                className="edit-btn"
                             >
                                 Edit
                             </button>
                             <button
                                 onClick={() => handleDelete(lecturer._id)}
-                                style={{ backgroundColor: "red", color: "white", border: "none", padding: "5px 10px" }}
+                                className="delete-btn"
                             >
                                 Delete
                             </button>
