@@ -7,6 +7,8 @@ import Footer from "./Pages/Footer";
 import Courses from "./Pages/Courses";
 import Form from "./Pages/Form";
 import AdminPanel from "./Pages/Pannel";
+import Cadmin from "./Pages/Cadmin";
+
 const App = () => {
   
   return (
@@ -15,11 +17,9 @@ const App = () => {
       <About/>
       <AdminPanel/>
       <Courses/>
+      <Cadmin/>
       <Form/>
-
       <Footer/>
-
-      {/* ===================== ROOT ELEMENT ===================== */}
       <div id="root"></div>
     </>
   );

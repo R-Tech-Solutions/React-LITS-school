@@ -23,9 +23,11 @@ mongoose.connect(process.env.MONGO_URI, {
 // Routes
 const lecturerRoutes = require('./routes/lecturerRoutes');
 const mailRoutes = require('./routes/mailRoutes');
+const courseRoutes = require('./routes/courseRoutes');
 
 app.use('/api', mailRoutes);
 app.use('/api/lecturers', lecturerRoutes);
+app.use('/api/courses', courseRoutes);
 
 app.get('/', (req, res) => {
     res.send('Backend is running!');
