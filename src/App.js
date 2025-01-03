@@ -6,15 +6,17 @@ import About from "./Pages/About";
 import Footer from "./Pages/Footer";
 import Courses from "./Pages/Courses";
 import Form from "./Pages/Form";
-
+import AdminPanel from "./Pages/Pannel";
 const App = () => {
   
   return (
     <>
       <Home/>
       <About/>
+      <AdminPanel/>
       <Courses/>
       <Form/>
+
       <Footer/>
 
       {/* ===================== ROOT ELEMENT ===================== */}
