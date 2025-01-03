@@ -1,4 +1,3 @@
-// Import necessary libraries
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 
@@ -9,6 +8,7 @@ const AdminPanel = () => {
         subject: "",
         image: "",
     });
+    const [editingId, setEditingId] = useState(null); // To track which lecturer is being edited
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
@@ -44,13 +44,31 @@ const AdminPanel = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+
         try {
-            await axios.post("http://localhost:3001/api/lecturers", formData);
+            if (editingId) {
+                // Update lecturer
+                await axios.put(`http://localhost:3001/api/lecturers/${editingId}`, formData);
+                setEditingId(null);
+            } else {
+                // Add new lecturer
+                await axios.post("http://localhost:3001/api/lecturers", formData);
+            }
+
             fetchLecturers();
             setFormData({ name: "", subject: "", image: "" });
         } catch (error) {
-            console.error("Error adding lecturer:", error);
+            console.error(editingId ? "Error updating lecturer:" : "Error adding lecturer:", error);
         }
+    };
+
+    const handleEdit = (lecturer) => {
+        setEditingId(lecturer._id);
+        setFormData({
+            name: lecturer.name,
+            subject: lecturer.subject,
+            image: lecturer.image,
+        });
     };
 
     const handleDelete = async (id) => {
@@ -98,10 +116,17 @@ const AdminPanel = () => {
                 <div>
                     <label>
                         Image:
-                        <input type="file" accept="image/*" onChange={handleImageChange} required />
+                        <input
+                            type="file"
+                            accept="image/*"
+                            onChange={handleImageChange}
+                            required={!editingId} // Make the image required only when adding
+                        />
                     </label>
                 </div>
-                <button type="submit" style={{ marginTop: "10px" }}>Add Lecturer</button>
+                <button type="submit" style={{ marginTop: "10px" }}>
+                    {editingId ? "Update Lecturer" : "Add Lecturer"}
+                </button>
             </form>
 
             <div className="lecturers-list">
@@ -130,12 +155,20 @@ const AdminPanel = () => {
                                 <p>{lecturer.subject}</p>
                             </div>
                         </div>
-                        <button
-                            onClick={() => handleDelete(lecturer._id)}
-                            style={{ backgroundColor: "red", color: "white", border: "none", padding: "5px 10px" }}
-                        >
-                            Delete
-                        </button>
+                        <div>
+                            <button
+                                onClick={() => handleEdit(lecturer)}
+                                style={{ marginRight: "10px", padding: "5px 10px" }}
+                            >
+                                Edit
+                            </button>
+                            <button
+                                onClick={() => handleDelete(lecturer._id)}
+                                style={{ backgroundColor: "red", color: "white", border: "none", padding: "5px 10px" }}
+                            >
+                                Delete
+                            </button>
+                        </div>
                     </div>
                 ))}
             </div>

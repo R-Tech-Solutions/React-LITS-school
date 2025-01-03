@@ -26,3 +26,38 @@ exports.addLecturer = async (req, res) => {
         res.status(500).json({ error: err.message });
     }
 };
+
+// Update a lecturer
+exports.updateLecturer = async (req, res) => {
+    const { id } = req.params;
+    const updates = req.body;
+
+    try {
+        const updatedLecturer = await Lecturer.findByIdAndUpdate(id, updates, { new: true });
+
+        if (!updatedLecturer) {
+            return res.status(404).json({ error: 'Lecturer not found' });
+        }
+
+        res.status(200).json({ message: 'Lecturer updated successfully', updatedLecturer });
+    } catch (err) {
+        res.status(500).json({ error: err.message });
+    }
+};
+
+// Delete a lecturer
+exports.deleteLecturer = async (req, res) => {
+    const { id } = req.params;
+
+    try {
+        const deletedLecturer = await Lecturer.findByIdAndDelete(id);
+
+        if (!deletedLecturer) {
+            return res.status(404).json({ error: 'Lecturer not found' });
+        }
+
+        res.status(200).json({ message: 'Lecturer deleted successfully', deletedLecturer });
+    } catch (err) {
+        res.status(500).json({ error: err.message });
+    }
+};
