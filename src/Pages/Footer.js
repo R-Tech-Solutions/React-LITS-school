@@ -12,6 +12,7 @@ const Footer = () => {
         { text: "Home", href: "#" },
         { text: "Courses", href: "#course" },
         { text: "About Us", href: "#about-container" },
+        { text: "Login", href: "#" },
       ],
     },
     {
@@ -63,7 +64,7 @@ const Footer = () => {
     {socialIcons.map((iconClass, index) => (
       <i key={index} className={iconClass}></i>
     ))}
-  </div>
+  </div>  
 
   {/* Copyright Statement */}
   <div className="copyright">

@@ -77,6 +77,7 @@ useEffect(() => {
             <li>
               <a href="#form-section">Contact</a>
             </li>
+            
           </ul>
           { <img id="menu" src={menuIcon} alt="Menu Icon" /> }
         </div>

@@ -1,80 +1,195 @@
+/* General styles */
+
+@font-face {
+    font-family: "pop-light";
+    src: url("../Assets/fonts/Poppins-Light.ttf");
+  }
+  
+  @font-face {
+    font-family: "pop-red";
+    src: url("../Assets/fonts/Poppins-Regular.ttf");
+  }
+  
+  @font-face {
+    font-family: "pop-med";
+    src: url("../Assets/fonts/Poppins-Medium.ttf");
+  }
+  
+  @font-face {
+    font-family: "pop-bold";
+    src: url("../Assets/fonts/Poppins-Bold.ttf");
+  }
+  
+  @font-face {
+    font-family: "pop-black";
+    src: url("../Assets/fonts/Poppins-Black.ttf");
+  }
+body {
+    background-color: #f4f4f4;
+    margin: 0;
+    padding: 0;
+}
+
 .admin-panel {
+    max-width: 800px;
+    margin: 20px auto;
+    background: #ffffff;
     padding: 20px;
-    font-family: Arial, sans-serif;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
 }
 
-.course-form input,
-.course-form textarea,
-.course-form button {
-    width: 100%;
-    padding: 10px;
-    margin: 10px 0;
-    border-radius: 5px;
-    border: 1px solid #ccc;
+h1 {
+    text-align: center;
+    color: #002a45;
+    margin-bottom: 20px;
 }
 
-.submit-button {
-    background-color: #4CAF50;
-    color: white;
-    cursor: pointer;
-}
-
-.submit-button:disabled {
-    background-color: #ccc;
-    cursor: not-allowed;
+h2 {
+    color: #555;
+    margin-top: 30px;
 }
 
 .error-message {
-    color: red;
-    margin-bottom: 10px;
+    color: #e74c3c;
+    background-color: #f8d7da;
+    border: 1px solid #f5c2c7;
+    padding: 10px;
+    margin-bottom: 20px;
+    border-radius: 5px;
+    text-align: center;
+}
+
+/* Form styles */
+.course-form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.course-form input, .course-form textarea {
+    width: 100%;
+    background-color: #fff;
+    font-size: 14px;
+    border-radius: 5px;
+    border: none;
+    outline: none;
+    color: #002a45;
+    padding: 20px 0px;
+    margin-bottom: 5px;
+    box-shadow: 4px 4px 4px gray;
+}
+
+.course-form textarea {
+    resize: none;
+    height: 100px;
+}
+
+.course-form input[type="file"] {
+    padding: 0;
+}
+
+.submit-button {
+    background-color: #007bff;
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.submit-button:hover {
+    background-color: #0056b3;
+}
+
+.submit-button:disabled {
+    background-color: #6c757d;
+    cursor: not-allowed;
+}
+
+/* Search bar */
+.search-bar {
+    margin: 20px 0;
 }
 
 .search-bar input {
     width: 100%;
     padding: 10px;
-    margin-bottom: 20px;
-    border-radius: 5px;
     border: 1px solid #ccc;
-}
-
-.courses-list {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 20px;
-}
-
-.course-item {
-    border: 1px solid #ccc;
-    padding: 15px;
     border-radius: 5px;
-    width: calc(33% - 20px);
+    font-size: 16px;
     box-sizing: border-box;
 }
 
-.course-item img {
-    width: 100px;
-    height: 100px;
-    object-fit: cover;
+/* Courses list */
+.courses-list {
+    margin-top: 20px;
+}
+
+.course-item {
+    background: #f9f9f9;
+    border: 1px solid #ddd;
+    padding: 15px;
+    margin-bottom: 15px;
+    border-radius: 5px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+.course-image {
+    max-width: 100%;
+    height: auto;
+    border-radius: 5px;
     margin-bottom: 10px;
 }
 
-.actions button {
-    margin: 5px;
-}
-
-.edit-button {
-    background-color: #fbc02d;
-    color: white;
-}
-
-.delete-button {
-    background-color: #e57373;
-    color: white;
+.actions {
+    display: flex;
+    gap: 10px;
 }
 
 .edit-button, .delete-button {
-    padding: 8px 15px;
+    padding: 8px 12px;
+    font-size: 14px;
     border: none;
     border-radius: 5px;
     cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.edit-button {
+    background-color: #28a745;
+    color: white;
+}
+
+.edit-button:hover {
+    background-color: #218838;
+}
+
+.delete-button {
+    background-color: #dc3545;
+    color: white;
+}
+
+.delete-button:hover {
+    background-color: #c82333;
+}
+
+/* Responsive design */
+@media (max-width: 600px) {
+    .admin-panel {
+        padding: 15px;
+    }
+
+    .course-form input, .course-form textarea {
+        font-size: 14px;
+    }
+
+    .submit-button, .edit-button, .delete-button {
+        font-size: 14px;
+    }
 }
