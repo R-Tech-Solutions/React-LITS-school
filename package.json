@@ -19,7 +19,7 @@
     "react-bootstrap": "^2.10.7",
     "react-dom": "^19.0.0",
     "react-fast-marquee": "^1.6.5",
-    "react-router-dom": "^7.1.1",
+    "react-router-dom": "^6.28.1",
     "react-scripts": "5.0.1",
     "sweetalert2": "^11.15.3"
   },

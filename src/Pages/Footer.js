@@ -12,7 +12,7 @@ const Footer = () => {
         { text: "Home", href: "#" },
         { text: "Courses", href: "#course" },
         { text: "About Us", href: "#about-container" },
-        { text: "Login", href: "#" },
+        { text: "Login", href: "./Login" },
       ],
     },
     {

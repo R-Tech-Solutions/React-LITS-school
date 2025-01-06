@@ -6,20 +6,22 @@ import About from "./Pages/About";
 import Footer from "./Pages/Footer";
 import Courses from "./Pages/Courses";
 import Form from "./Pages/Form";
-import AdminPanel from "./Pages/Pannel";
 import Cadmin from "./Pages/Cadmin";
-
+import Login from "./Pages/Login";
+import Admin from "./Pages/Admin";
 const App = () => {
   
   return (
     <>
-      <Home/>
+      {/* <Home/>
       <About/>
       <AdminPanel/>
       <Courses/>
       <Cadmin/>
       <Form/>
-      <Footer/>
+      <Footer/> */}
+      <Login/> 
+      <Admin/>
       <div id="root"></div>
     </>
   );

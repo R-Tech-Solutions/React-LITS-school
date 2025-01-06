@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import './AdminPanel.css'; // You can create a separate CSS file for better styling
+import './Cadmin.css';
 
 const AdminPanel = () => {
     const [courses, setCourses] = useState([]);
@@ -101,8 +101,8 @@ const AdminPanel = () => {
     );
 
     return (
-        <div className="admin-panel">
-            <h1>Admin Panel</h1>
+        <div className="admin-panel" id='courseadd'>
+            <h1 >Add Courses</h1>
 
             {errorMessage && <div className="error-message">{errorMessage}</div>}
 
