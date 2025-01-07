@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import './Cadmin.css';
+import { backEndURL } from "../Backendurl";
 
 const AdminPanel = () => {
     const [courses, setCourses] = useState([]);
@@ -26,7 +27,7 @@ const AdminPanel = () => {
     const fetchCourses = async () => {
         setLoading(true);
         try {
-            const response = await axios.get('http://localhost:3001/api/courses');
+            const response = await axios.get(`${backEndURL}/api/courses`);
             setCourses(response.data);
         } catch (error) {
             setErrorMessage('Error fetching courses. Please try again.');
@@ -75,9 +76,9 @@ const AdminPanel = () => {
         setLoading(true);
         try {
             if (editingCourse) {
-                await axios.put(`http://localhost:3001/api/courses/${editingCourse}`, formData);
+                await axios.put(`${backEndURL}/api/courses/${editingCourse}`, formData);
             } else {
-                await axios.post('http://localhost:3001/api/courses', formData);
+                await axios.post(`${backEndURL}/api/courses`, formData);
             }
             fetchCourses();
             setFormData({
@@ -109,7 +110,7 @@ const AdminPanel = () => {
         if (window.confirm('Are you sure you want to delete this course?')) {
             setLoading(true);
             try {
-                await axios.delete(`http://localhost:3001/api/courses/${id}`);
+                await axios.delete(`${backEndURL}/api/courses/${id}`);
                 fetchCourses();
             } catch (error) {
                 setErrorMessage('Error deleting course. Please try again.');

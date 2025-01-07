@@ -4,6 +4,7 @@ import Marquee from "react-fast-marquee";
 import logo from "../Assets/images/logo1.png";
 import menuIcon from "../Assets/images/menu.png";
 import { Link } from "react-router-dom"; 
+import { backEndURL } from "../Backendurl";
 
 const LecturersSection = () => {
     const [lecturers, setLecturers] = useState([]);
@@ -12,7 +13,7 @@ const LecturersSection = () => {
     useEffect(() => {
         const fetchLecturers = async () => {
             try {
-                const response = await axios.get("http://localhost:3001/api/lecturers");
+                const response = await axios.get(`${backEndURL}/api/lecturers`);
                 setLecturers(response.data);
                 setLoading(false);
             } catch (error) {
@@ -57,7 +58,7 @@ const Course = () => {
     useEffect(() => {
         const fetchCourses = async () => {
             try {
-                const response = await axios.get('http://localhost:3001/api/courses');
+                const response = await axios.get(`${backEndURL}/api/courses`);
                 setCourses(response.data);
             } catch (error) {
                 console.error("Error fetching courses:", error);

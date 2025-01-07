@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import Marquee from "react-fast-marquee";
+import { backEndURL } from "../Backendurl";
 
 const LecturersSection = () => {
     const [lecturers, setLecturers] = useState([]);
@@ -9,7 +10,7 @@ const LecturersSection = () => {
     useEffect(() => {
         const fetchLecturers = async () => {
             try {
-                const response = await axios.get("http://localhost:3001/api/lecturers");
+                const response = await axios.get(`${backEndURL}/api/lecturers`);
                 setLecturers(response.data);
                 setLoading(false);
             } catch (error) {

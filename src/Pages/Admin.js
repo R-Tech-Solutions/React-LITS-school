@@ -4,6 +4,7 @@ import './Admin.css';
 import Cadmin from './Cadmin';
 import { ToastContainer, toast } from 'react-toastify'; // For feedback
 import 'react-toastify/dist/ReactToastify.css';
+import { backEndURL } from "../Backendurl";
 
 const AdminPanel = () => {
     const [lecturers, setLecturers] = useState([]);
@@ -22,7 +23,7 @@ const AdminPanel = () => {
 
     const fetchLecturers = async () => {
         try {
-            const response = await axios.get("http://localhost:3001/api/lecturers");
+            const response = await axios.get(`${backEndURL}/api/lecturers`);
             setLecturers(response.data);
             setLoading(false);
         } catch (error) {
@@ -53,11 +54,11 @@ const AdminPanel = () => {
 
         try {
             if (editingId) {
-                await axios.put(`http://localhost:3001/api/lecturers/${editingId}`, formData);
+                await axios.put(`${backEndURL}/api/lecturers/${editingId}`, formData);
                 toast.success("Lecturer updated successfully!");
                 setEditingId(null);
             } else {
-                await axios.post("http://localhost:3001/api/lecturers", formData);
+                await axios.post(`${backEndURL}/api/lecturers`, formData);
                 toast.success("Lecturer added successfully!");
             }
             fetchLecturers();
@@ -83,7 +84,7 @@ const AdminPanel = () => {
         const isConfirmed = window.confirm("Are you sure you want to delete this lecturer?");
         if (isConfirmed) {
             try {
-                await axios.delete(`http://localhost:3001/api/lecturers/${id}`);
+                await axios.delete(`${backEndURL}/api/lecturers/${id}`);
                 toast.success("Lecturer deleted successfully!");
                 fetchLecturers();
             } catch (error) {
