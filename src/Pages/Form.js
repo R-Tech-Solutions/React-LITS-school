@@ -232,8 +232,7 @@ const Form = () => {
             />
           </div>
         </div>
-
-        {/* Form Buttons */}
+        
         <div className="form-buttons">
           <button type="button" className="reset-button" onClick={handleReset}>
             Clear
