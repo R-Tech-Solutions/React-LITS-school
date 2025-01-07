@@ -183,80 +183,11 @@ nav .navigation ul li a:hover {
 }
 
 /* ===================== ABOUT SECTION ===================== */
-#about-container {
-  flex-direction: col;
-  justify-content: center;
-  align-items: center;
-  padding: 2vw 8vw 2vw 8vw;
-}
-
-#about-container .about-img {
-  width: 100%;
-  padding: 15px 0px;
-}
-
-#about-container .about-img img {
-  width: 100%;
-  height: 250px;
-  object-fit: cover;
-  border-radius: 10px;
-}
-
-#about-container .about-text {
-  width: 100%;
-}
-
-#about-container .about-text h2 {
-  color: #00416a;
-  margin-bottom: 20px;
-  text-align: center;
-}
-
-#about-container .about-text p {
-  color: #00416a;
-  font-family: "pop-light";
-  text-align: justify;
-  align-items: center;
-  margin-bottom: 10px;
-}
-
 #experts {
-  padding: 2vw 5vw 2vw 5vw;
+  padding: 2vw 5vw;
   text-align: center;
   color: #00416a;
   width: 100%;
-}
-
-
-#experts .experts-box {
-  display: flex;
-  overflow: hidden;
-  position: relative;
-  margin-top: 20px;
-}
-
-#experts .experts-box .profile {
-  flex: 0 0 auto;
-  width: 15%;
-  margin: 0 10px;
-}
-
-.sliding-container {
-  display: flex;
-  width: 200%;
-  /* Ensure the width accommodates both sets of items */
-  animation: slide 30s linear infinite;
-}
-
-/* Animation for sliding effect */
-@keyframes slide {
-  0% {
-    transform: translateX(0);
-  }
-
-  100% {
-    transform: translateX(-50%);
-  }
 }
 
 #experts h1 {
@@ -269,7 +200,20 @@ nav .navigation ul li a:hover {
   font-family: "pop-light";
 }
 
-#experts .experts-box .profile img {
+#experts .experts-box {
+  margin-top: 20px;
+  overflow: hidden;
+  width: 100%;
+}
+
+#experts .profile {
+  flex: 0 0 auto;
+  width: 15%;
+  margin: 0 10px;
+  text-align: center;
+}
+
+#experts .profile img {
   width: 150px;
   height: 200px;
   border-radius: 10px;

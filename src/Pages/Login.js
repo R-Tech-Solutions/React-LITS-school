@@ -1,9 +1,14 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './LoginForm.css';
 
 function LoginForm() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+
+  useEffect(() => {
+    // Scroll to top when the component is mounted
+    window.scrollTo(0, 0);
+  }, []);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -36,11 +41,9 @@ function LoginForm() {
           />
         </div>
         <button type="submit" className="login-button">Login</button>
-       
       </form>
     </div>
   );
 }
 
 export default LoginForm;
-

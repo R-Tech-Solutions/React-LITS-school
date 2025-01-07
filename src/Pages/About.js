@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import Marquee from "react-fast-marquee";
 
 const LecturersSection = () => {
     const [lecturers, setLecturers] = useState([]);
@@ -33,7 +34,7 @@ const LecturersSection = () => {
                 for every student.
             </p>
             <div className="experts-box">
-                <div className="sliding-container">
+                <Marquee gradient={false} speed={50}>
                     {lecturers.map((lecturer, index) => (
                         <div className="profile" key={index}>
                             <img src={lecturer.image} alt={lecturer.name} />
@@ -41,7 +42,7 @@ const LecturersSection = () => {
                             <p>{lecturer.subject}</p>
                         </div>
                     ))}
-                </div>
+                </Marquee>
             </div>
         </section>
     );
