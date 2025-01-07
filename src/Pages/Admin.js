@@ -2,6 +2,9 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import './Admin.css';
 import Cadmin from './Cadmin';
+import { ToastContainer, toast } from 'react-toastify'; // For feedback
+import 'react-toastify/dist/ReactToastify.css';
+
 const AdminPanel = () => {
     const [lecturers, setLecturers] = useState([]);
     const [formData, setFormData] = useState({
@@ -11,6 +14,7 @@ const AdminPanel = () => {
     });
     const [editingId, setEditingId] = useState(null);
     const [loading, setLoading] = useState(true);
+    const [isSubmitting, setIsSubmitting] = useState(false);
 
     useEffect(() => {
         fetchLecturers();
@@ -45,19 +49,24 @@ const AdminPanel = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        setIsSubmitting(true);
 
         try {
             if (editingId) {
                 await axios.put(`http://localhost:3001/api/lecturers/${editingId}`, formData);
+                toast.success("Lecturer updated successfully!");
                 setEditingId(null);
             } else {
                 await axios.post("http://localhost:3001/api/lecturers", formData);
+                toast.success("Lecturer added successfully!");
             }
-
             fetchLecturers();
             setFormData({ name: "", subject: "", image: "" });
         } catch (error) {
+            toast.error("Error occurred. Please try again.");
             console.error(editingId ? "Error updating lecturer:" : "Error adding lecturer:", error);
+        } finally {
+            setIsSubmitting(false);
         }
     };
 
@@ -71,19 +80,22 @@ const AdminPanel = () => {
     };
 
     const handleDelete = async (id) => {
-        try {
-            await axios.delete(`http://localhost:3001/api/lecturers/${id}`);
-            fetchLecturers();
-        } catch (error) {
-            console.error("Error deleting lecturer:", error);
+        const isConfirmed = window.confirm("Are you sure you want to delete this lecturer?");
+        if (isConfirmed) {
+            try {
+                await axios.delete(`http://localhost:3001/api/lecturers/${id}`);
+                toast.success("Lecturer deleted successfully!");
+                fetchLecturers();
+            } catch (error) {
+                toast.error("Error deleting lecturer. Please try again.");
+                console.error("Error deleting lecturer:", error);
+            }
         }
     };
 
     if (loading) {
         return <p>Loading...</p>;
     }
-
-    
 
     return (
         <div className="admin-container">
@@ -134,8 +146,8 @@ const AdminPanel = () => {
                             required={!editingId}
                         />
                     </div>
-                    <button type="submit" className="submit-btn">
-                        {editingId ? "Update Lecturer" : "Add Lecturer"}
+                    <button type="submit" className="submit-btn" disabled={isSubmitting}>
+                        {isSubmitting ? "Submitting..." : editingId ? "Update Lecturer" : "Add Lecturer"}
                     </button>
                 </form>
 
@@ -172,9 +184,9 @@ const AdminPanel = () => {
                     ))}
                 </div>
             </div>
-            <Cadmin/>
+            <Cadmin />
+            <ToastContainer position="top-right" autoClose={5000} hideProgressBar />
         </div>
-       
     );
 };
 

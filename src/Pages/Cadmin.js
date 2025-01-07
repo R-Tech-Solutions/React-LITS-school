@@ -17,6 +17,7 @@ const AdminPanel = () => {
     const [loading, setLoading] = useState(false);
     const [searchQuery, setSearchQuery] = useState('');
     const [errorMessage, setErrorMessage] = useState('');
+    const [imagePreview, setImagePreview] = useState('');
 
     useEffect(() => {
         fetchCourses();
@@ -41,15 +42,36 @@ const AdminPanel = () => {
     };
 
     const handleImageChange = (e) => {
-        const reader = new FileReader();
-        reader.onloadend = () => {
-            setFormData({ ...formData, image: reader.result });
-        };
-        reader.readAsDataURL(e.target.files[0]);
+        const file = e.target.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onloadend = () => {
+                setFormData({ ...formData, image: reader.result });
+                setImagePreview(reader.result);
+            };
+            reader.readAsDataURL(file);
+        }
+    };
+
+    const validateForm = () => {
+        const { title, description, entry, commencement, structure, startDate } = formData;
+        if (!title || !description || !entry || !commencement || !structure || !startDate) {
+            return 'All fields are required.';
+        }
+        if (isNaN(Number(commencement)) || Number(commencement) < 0) {
+            return 'Price must be a valid positive number.';
+        }
+        return null;
     };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        const validationMessage = validateForm();
+        if (validationMessage) {
+            setErrorMessage(validationMessage);
+            return;
+        }
+
         setLoading(true);
         try {
             if (editingCourse) {
@@ -67,6 +89,7 @@ const AdminPanel = () => {
                 startDate: '',
                 image: '',
             });
+            setImagePreview('');
             setEditingCourse(null);
         } catch (error) {
             setErrorMessage('Error submitting course. Please try again.');
@@ -78,6 +101,7 @@ const AdminPanel = () => {
 
     const handleEdit = (course) => {
         setFormData(course);
+        setImagePreview(course.image);
         setEditingCourse(course._id);
     };
 
@@ -101,8 +125,8 @@ const AdminPanel = () => {
     );
 
     return (
-        <div className="admin-panel" id='courseadd'>
-            <h1 >Add Courses</h1>
+        <div className="admin-panel" id="courseadd">
+            <h1>Add Courses</h1>
 
             {errorMessage && <div className="error-message">{errorMessage}</div>}
 
@@ -150,6 +174,7 @@ const AdminPanel = () => {
                     required
                 />
                 <input type="file" onChange={handleImageChange} />
+                {imagePreview && <img src={imagePreview} alt="Preview" className="image-preview" />}
                 <button type="submit" className="submit-button" disabled={loading}>
                     {loading ? 'Submitting...' : editingCourse ? 'Update Course' : 'Add Course'}
                 </button>

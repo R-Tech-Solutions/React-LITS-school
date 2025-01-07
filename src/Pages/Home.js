@@ -158,7 +158,7 @@ const Home = () => {
                             <a href="#" className="active">Home</a>
                         </li>
                         <li>
-                            <a href="#about-container">About</a>
+                            <a href="#experts">About</a>
                         </li>
                         <li>
                             <a href="#course">Courses</a>

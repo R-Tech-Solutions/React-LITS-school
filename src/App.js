@@ -8,6 +8,7 @@ import Footer from "./Pages/Footer";
 import Courses from "./Pages/Courses";
 import Form from "./Pages/Form";
 import LoginForm from "./Pages/Login";
+import Admin from './Pages/Admin'; 
 
 const App = () => {
   return (
@@ -17,6 +18,7 @@ const App = () => {
         <Route path="/about" element={<About />} />
         <Route path="/courses" element={<Courses />} />
         <Route path="/form" element={<Form />} />
+        <Route path="/admin" element={<Admin />} />
         <Route path="/login" element={<LoginForm />} />
       </Routes>
       <Footer />
