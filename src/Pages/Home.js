@@ -156,12 +156,6 @@ const Home = () => {
                     <ul>
                         <i id="menu-close" className="fas fa-times"></i>
                         <li>
-                            <a href="#" className="active">Home</a>
-                        </li>
-                        <li>
-                            <a href="#experts">About</a>
-                        </li>
-                        <li>
                             <a href="#course">Courses</a>
                         </li>
                         <li>
