@@ -1,5 +1,5 @@
 import React from "react";
-import { BrowserRouter as Router, Routes, Route, useLocation, Navigate } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import "./App.css";
 import "./Assets/icons/fontawesome/css/all.min.css";
 import Home from "./Pages/Home";
@@ -8,13 +8,8 @@ import Footer from "./Pages/Footer";
 import Courses from "./Pages/Courses";
 import Form from "./Pages/Form";
 import LoginForm from "./Pages/Login";
-import Admin from './Pages/Admin'; 
-
-const ProtectedRoute = ({ children }) => {
-  const isAuthenticated = localStorage.getItem("isAuthenticated") === "true";
-
-  return isAuthenticated ? children : <Navigate to="/login" replace />;
-};
+import Admin from "./Pages/Admin";
+import { AuthProvider, ProtectedRoute } from "./Pages/AuthContext";
 
 const App = () => {
   return (
@@ -23,17 +18,19 @@ const App = () => {
       <Route path="/about" element={<About />} />
       <Route path="/courses" element={<Courses />} />
       <Route path="/form" element={<Form />} />
-      <Route path="/admin" element={<ProtectedRoute><Admin /></ProtectedRoute>} />
       <Route path="/login" element={<LoginForm />} />
+      <Route path="/admin" element={<ProtectedRoute><Admin /></ProtectedRoute>} />
     </Routes>
   );
 };
 
 const AppWrapper = () => (
-  <Router>
-    <App />
-    <Footer />
-  </Router>
+  <AuthProvider>
+    <Router>
+      <App />
+      <Footer />
+    </Router>
+  </AuthProvider>
 );
 
 export default AppWrapper;
