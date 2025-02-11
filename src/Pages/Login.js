@@ -21,6 +21,9 @@ function LoginForm() {
     const correctPassword = '1234';
 
     if (email === correctEmail && password === correctPassword) {
+      // Store login status in localStorage
+      localStorage.setItem("isAuthenticated", "true");
+
       // Show success message
       Swal.fire({
         title: 'Login Successful!',
@@ -31,6 +34,7 @@ function LoginForm() {
         // Redirect to Admin page after confirmation
         navigate('/admin'); // Redirect to Admin page
       });
+
       console.log('Login successful', { email, password });
     } else {
       // Show error message
