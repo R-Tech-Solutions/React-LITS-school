@@ -30,6 +30,11 @@
     color: #333;
     background-color: #f7f7f7;
   }
+
+  .container{
+    display: grid;
+    grid-template-columns: auto;
+  }
   
   .admission-section {
     max-width: 1000px;
@@ -67,7 +72,7 @@
   
   .form-inputs {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(700px, 1fr));
     gap: 30px;
   }
   
@@ -81,7 +86,7 @@
     border: none;
     outline: none;
     color: #002a45;
-    padding: 20px 0px;
+    padding: 10px 0px;
     margin-bottom: 5px;
     box-shadow: 4px 4px 4px gray;
   }

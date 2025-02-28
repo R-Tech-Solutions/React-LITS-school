@@ -1,21 +1,19 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './formstyle.css';
 import Swal from 'sweetalert2';
-import logo from '../Assets/images/logo1.png';
 
 const Form = () => {
-  const [classSelect, setClassSelect] = useState('');
-  const [sectionSelect, setSectionSelect] = useState('');
+  const [classValue, setClassValue] = useState("");
+  const [sectionValue, setSectionValue] = useState("");
   const [formData, setFormData] = useState({});
 
-  const handleClassChange = (event) => {
-    setClassSelect(event.target.value);
-    setSectionSelect(''); // Reset section on class change
-  };
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    setClassValue(params.get("class") || "");
+    setSectionValue(params.get("section") || "");
+  }, []);
 
-  const handleSectionChange = (event) => {
-    setSectionSelect(event.target.value);
-  };
+
 
   const handleInputChange = (event) => {
     const { name, value } = event.target;
@@ -33,10 +31,6 @@ const Form = () => {
       confirmButtonText: 'OK',
     });
 
-    // Clear form data after submission
-    setFormData({});
-    setClassSelect('');
-    setSectionSelect('');
   };
 
   const handleReset = () => {
@@ -50,10 +44,6 @@ const Form = () => {
       confirmButtonText: 'Yes, reset it!',
     }).then((result) => {
       if (result.isConfirmed) {
-        // Clear form data
-        setFormData({});
-        setClassSelect('');
-        setSectionSelect('');
 
         Swal.fire({
           icon: 'success',
@@ -65,22 +55,19 @@ const Form = () => {
     });
   };
 
-  const sections = {
-    Japanese: ["Japanese"],
-    French: ["French"],
-    Chinese: ["Chinese"],
-    Korean: ["Korean"],
-    Hindi: ["Hindi"],
-    English: ["English"],
-    Russian: ["Russian"],
-    Italy: ["Italy"],
-    Arabic: ["Arabic"],
-    German: ["German"],
-  };
+
+
 
   return (
     <section className="admission-section" id="form-section">
-      <h1 className="title">Make An Admission</h1>
+      <div className="container">
+        <h1 className="title">Make An Admission</h1>
+        <div className="back-to-courses">
+          <a href="/subcourse" className="back-btn">Back</a>
+        </div>
+      </div>
+
+
       <form id="admissionForm" className="form-container" onSubmit={handleSubmit}>
         {/* Academic Details */}
         <div className="form-group">
@@ -96,42 +83,16 @@ const Form = () => {
               />
             </div>
             <div>
-              <label>Class*</label>
-              <select
-                name="class"
-                id="classSelect"
-                value={classSelect}
-                onChange={(e) => {
-                  handleClassChange(e);
-                  handleInputChange(e);
-                }}
-              >
-                <option value="">Select</option>
-                {Object.keys(sections).map((className) => (
-                  <option key={className} value={className}>
-                    {className}
-                  </option>
-                ))}
+              <label>Class</label>
+              <select value={classValue} onChange={(e) => setClassValue(e.target.value)}>
+                <option value={classValue}>{classValue}</option>
+                {/* Other options */}
               </select>
-            </div>
-            <div>
-              <label>Section*</label>
-              <select
-                name="section"
-                id="sectionSelect"
-                value={sectionSelect}
-                onChange={(e) => {
-                  handleSectionChange(e);
-                  handleInputChange(e);
-                }}
-              >
-                <option value="">Select</option>
-                {sections[classSelect] &&
-                  sections[classSelect].map((sec) => (
-                    <option key={sec} value={sec}>
-                      {sec}
-                    </option>
-                  ))}
+
+              <label>Section</label>
+              <select value={sectionValue} onChange={(e) => setSectionValue(e.target.value)}>
+                <option value={sectionValue}>{sectionValue}</option>
+                {/* Other options */}
               </select>
             </div>
           </div>
@@ -232,7 +193,7 @@ const Form = () => {
             />
           </div>
         </div>
-        
+
         <div className="form-buttons">
           <button type="button" className="reset-button" onClick={handleReset}>
             Clear

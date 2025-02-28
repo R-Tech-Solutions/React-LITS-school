@@ -36,7 +36,8 @@ h1 {
 
 .course-form input,
 .course-form textarea,
-.course-form button {
+.course-form button,
+.course-form select {
     width: 100%;
     background-color: #fff;
     font-size: 14px;

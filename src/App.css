@@ -264,6 +264,25 @@ nav .navigation ul li a:hover {
   border-radius: 10px;
   transition: transform .2s;
   box-shadow: 5px 5px 5px lightgray;
+  margin-bottom: 20px;
+}
+
+#course .courses .btn a {
+  text-decoration: none;
+  color: #fff;
+  background-color: #90d5ff;
+  margin-right: 5px;
+  border-radius: 10px;
+  padding: 12px;
+}
+
+#course .courses .btn a:hover {
+  text-decoration: none;
+  color: #00416a;
+  background-color: #fff;
+  margin-right: 5px;
+  border-radius: 10px;
+  padding: 12px;
 }
 
 #course .courses:hover {
@@ -540,6 +559,24 @@ footer .copyright {
     border-radius: 10px;
     transition: transform .2s;
     box-shadow: 5px 5px 5px lightgray;
+  }
+
+  #course .courses .btn a {
+    text-decoration: none;
+    color: #fff;
+    background-color: #90d5ff;
+    margin-right: 5px;
+    border-radius: 10px;
+    padding: 10px;
+  }
+
+  #course .courses .btn a:hover {
+    text-decoration: none;
+    color: #00416a;
+    background-color: #fff;
+    margin-right: 5px;
+    border-radius: 10px;
+    padding: 10px;
   }
 
   #course .courses:hover {

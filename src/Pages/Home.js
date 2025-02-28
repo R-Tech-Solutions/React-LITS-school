@@ -3,8 +3,9 @@ import axios from "axios";
 import Marquee from "react-fast-marquee";
 import logo from "../Assets/images/logo1.png";
 import menuIcon from "../Assets/images/menu.png";
-import { Link } from "react-router-dom"; 
+import { Link } from "react-router-dom";
 import { backEndURL } from "../Backendurl";
+import Subcourse from "./Subcourse";
 
 const LecturersSection = () => {
     const [lecturers, setLecturers] = useState([]);
@@ -159,10 +160,10 @@ const Home = () => {
                             <a href="#course">Courses</a>
                         </li>
                         <li>
-  <Link to="/form">Contact</Link>
-</li>
+                            <Link to="/form">Contact</Link>
+                        </li>
                     </ul>
-                    { <img id="menu" src={menuIcon} alt="Menu Icon" /> }
+                    {<img id="menu" src={menuIcon} alt="Menu Icon" />}
                 </div>
             </nav>
 
@@ -187,6 +188,7 @@ const Home = () => {
 
             {/* ===================== COURSES COMPONENT===================== */}
             <Course />
+            <Subcourse />
         </>
     );
 };
