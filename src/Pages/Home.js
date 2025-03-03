@@ -5,7 +5,7 @@ import logo from "../Assets/images/logo1.png";
 import menuIcon from "../Assets/images/menu.png";
 import { Link } from "react-router-dom";
 import { backEndURL } from "../Backendurl";
-import Subcourse from "./Subcourse";
+import Courses from "./Courses";
 
 const LecturersSection = () => {
     const [lecturers, setLecturers] = useState([]);
@@ -157,6 +157,9 @@ const Home = () => {
                     <ul>
                         <i id="menu-close" className="fas fa-times"></i>
                         <li>
+                            <a href="/">Home</a>
+                        </li>
+                        <li>
                             <a href="#course">Courses</a>
                         </li>
                         <li>
@@ -178,7 +181,7 @@ const Home = () => {
                     excellence today!
                 </p>
                 <div className="btn">
-                    <a className="blue" href="#form-section">Get Started</a>
+                    <a className="blue" href="/form">Get Started</a>
                     <a className="yellow" href="#course">Visit Courses</a>
                 </div>
             </section>
@@ -187,8 +190,7 @@ const Home = () => {
             <LecturersSection />
 
             {/* ===================== COURSES COMPONENT===================== */}
-            <Course />
-            <Subcourse />
+            <Courses />
         </>
     );
 };

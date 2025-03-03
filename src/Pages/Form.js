@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import './formstyle.css';
+import { Link } from 'react-router-dom';
 import Swal from 'sweetalert2';
 
 const Form = () => {
@@ -63,8 +64,9 @@ const Form = () => {
       <div className="container">
         <h1 className="title">Make An Admission</h1>
         <div className="back-to-courses">
-          <a href="/subcourse" className="back-btn">Back</a>
+          <a href="/" className="back-btn">Back</a>
         </div>
+        
       </div>
 
 

@@ -50,6 +50,8 @@
   
   .subcourse-card {
     background: #ffffff;
+    color: #00416a;
+    padding: 20px;
     border-radius: 8px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     overflow: hidden;
@@ -57,17 +59,6 @@
     text-align: left;
   }
   
-  .subcourse-image {
-    width: 100%;
-    height: 30px;
-    overflow: hidden;
-  }
-  
-  .subcourse-image img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-  }
   
   .subcourse-content {
     padding: 20px;
@@ -211,17 +202,6 @@
       width: 100%;
       font-size: 14px;
     }
-  
-    .subcourse-image {
-      width: 100%;
-      height: auto;
-    }
-
-    .subcourse-image {
-    width: 100%;
-    height: 10px;
-    overflow: hidden;
-  }
   
     .course-info {
       flex-direction: column;

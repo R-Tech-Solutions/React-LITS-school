@@ -20,7 +20,7 @@ const App = () => {
       <Route path="/courses" element={<Courses />} />
       <Route path="/form" element={<Form />} />
       <Route path="/login" element={<LoginForm />} />
-      <Route path="/subcourse" element={<Subcourse />} />
+      <Route path="/subcourse/:courseId" element={<Subcourse />} />
       <Route path="/admin" element={<ProtectedRoute><Admin /></ProtectedRoute>} />
     </Routes>
   );
