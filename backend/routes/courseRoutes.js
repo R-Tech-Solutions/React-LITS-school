@@ -1,22 +1,11 @@
 const express = require('express');
 const router = express.Router();
-const {
-    getAllCourses,
-    addCourse,
-    deleteCourse,
-    updateCourse,
-} = require('../controllers/courseController');
+const { addCourse, getCourses, updateCourse, deleteCourse, getCourseTitles} = require('../controllers/courseController');
 
-// Get all courses
-router.get('/', getAllCourses);
-
-// Add a course
-router.post('/', addCourse);
-
-// Delete a course
-router.delete('/:id', deleteCourse);
-
-// Update a course
-router.put('/:id', updateCourse);
+router.post('/add', addCourse);
+router.get('/', getCourses);
+router.put('/update/:id', updateCourse);
+router.delete('/delete/:id', deleteCourse);
+router.get('/titles', getCourseTitles); // New route for fetching only titles
 
 module.exports = router;

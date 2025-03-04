@@ -1,33 +1,36 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import Chinese from '../Assets/images/Chinese.jpg';
-
-const courses = [
-    { id: 'japanese', imgSrc: Chinese, title: 'Japanese Language', description: 'Learn Japanese with expert teachers.' },
-    { id: 'chinese', imgSrc: Chinese, title: 'Chinese Language', description: 'Learn Chinese with expert teachers.' },
-    { id: 'french', imgSrc: Chinese, title: 'French Language', description: 'Learn French with expert teachers.' },
-    { id: 'korean', imgSrc: Chinese, title: 'Korean Language', description: 'Learn Japanese with expert teachers.' },
-    { id: 'russian', imgSrc: Chinese, title: 'Russian  Language', description: 'Learn Chinese with expert teachers.' },
-    { id: 'italian', imgSrc: Chinese, title: 'Italian Language', description: 'Learn French with expert teachers.' },
-    { id: 'german', imgSrc: Chinese, title: 'German Language', description: 'Learn Japanese with expert teachers.' },
-    { id: 'hindi', imgSrc: Chinese, title: 'Hindi Language', description: 'Learn Chinese with expert teachers.' },
-    { id: 'english', imgSrc: Chinese, title: 'English Language', description: 'Learn French with expert teachers.' },
-    { id: 'arabic', imgSrc: Chinese, title: 'Arabic Language', description: 'Learn French with expert teachers.' },
-];
+import axios from 'axios';
+import { backEndURL } from "../Backendurl";
 
 const Course = () => {
+    const [courses, setCourses] = useState([]);
+
+    useEffect(() => {
+        const fetchCourses = async () => {
+            try {
+                const response = await axios.get(`${backEndURL}/api/courses`);
+                setCourses(response.data);
+            } catch (error) {
+                console.error('Error fetching courses:', error);
+            }
+        };
+
+        fetchCourses();
+    }, []);
+
     return (
         <section id="course">
             <h1>Our Popular Courses</h1>
             <div className="course-box">
                 {courses.map((course) => (
-                    <div className="courses" key={course.id}>
+                    <div className="courses" key={course._id}>
                         <div className="details">
                             <h3>{course.title}</h3>
-                            <img src={course.imgSrc} alt={course.title} />
+                            <img src={course.image} alt={course.title} />
                             <p>{course.description}</p>
                             <div className="btn">
-                                <Link className="get" to={`/subcourse/${course.id}`}>View Course</Link>
+                                <Link className="get" to={`/subcourse/${course.title}`}>View Course</Link>
                             </div>
                         </div>
                     </div>

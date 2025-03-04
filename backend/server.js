@@ -20,15 +20,16 @@ mongoose.connect(process.env.MONGO_URI, {
     .then(() => console.log('MongoDB connected!'))
     .catch((err) => console.error(err));
 
-// Routes
+// Routes`
 const lecturerRoutes = require('./routes/lecturerRoutes');
 const mailRoutes = require('./routes/mailRoutes');
 const courseRoutes = require('./routes/courseRoutes');
+const subCourseRoutes = require("./routes/subCourseRoutes");
 
 app.use('/api', mailRoutes);
 app.use('/api/lecturers', lecturerRoutes);
 app.use('/api/courses', courseRoutes);
-
+app.use("/api/subcourses", subCourseRoutes);
 app.get('/', (req, res) => {
     res.send('Backend is running!');
 });
