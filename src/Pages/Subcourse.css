@@ -24,7 +24,7 @@
   
   .subcourses-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(800px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(900px, 1fr));
     gap: 20px;
   }
   
@@ -49,6 +49,9 @@
   }
   
   .subcourse-card {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(900px, 1fr));
+    width: 100%;
     background: #ffffff;
     color: #00416a;
     padding: 20px;
@@ -58,7 +61,42 @@
     margin-bottom: 25px;
     text-align: left;
   }
-  
+
+  .edit-button {
+    width: 100%;
+    align-items: center;
+    text-align: center;
+    justify-content: center;
+    background-color: #28a745;
+    color: #fff;
+    border: none;
+    padding: 5px 5px;
+    border-radius: 5px;
+    margin-bottom: 10px;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+.edit-button:hover {
+    background-color: #218838;
+}
+
+.delete-button {
+    background-color: #dc3545;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    color: #fff;
+    border: none;
+    padding: 5px 5px;
+    border-radius: 5px;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+.delete-button:hover {
+    background-color: #c82333;
+}
   
   .subcourse-content {
     padding: 20px;
@@ -151,6 +189,7 @@
   
   .see-more-btn {
     margin-top: 20px;
+    width: 10%;
     display: flex;
     align-items: center;
     background: #90d5ff;

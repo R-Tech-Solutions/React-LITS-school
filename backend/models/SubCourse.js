@@ -12,7 +12,6 @@ const SubCourseSchema = new mongoose.Schema({
     duration: { type: String, required: true },
     time: { type: String, required: true },
     lecturer: { type: String, required: true },
-    image: { type: String, required: true }, // Base64 image
 }, { timestamps: true });
 
 module.exports = mongoose.model("SubCourse", SubCourseSchema);

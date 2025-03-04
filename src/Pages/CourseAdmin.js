@@ -126,8 +126,8 @@ const CourseAdmin = () => {
                         <h3>{course.title}</h3>
                         <p>{course.description}</p>
                         {course.image && <img src={course.image} alt={course.title} className="image-preview" />}
-                        <button onClick={() => handleUpdateClick(course)}>Edit</button>
-                        <button onClick={() => handleDelete(course._id)}>Delete</button>
+                        <button className='edit-button' onClick={() => handleUpdateClick(course)}>Edit</button>
+                        <button className='delete-button' onClick={() => handleDelete(course._id)}>Delete</button>
                     </li>
                 ))}
             </ul>

@@ -16,14 +16,12 @@ const SubcourseAdmin = ({ fetchCourses }) => {
         duration: '',
         time: '',
         lecturer: '',
-        image: '',
     });
 
     const [courseTitles, setCourseTitles] = useState([]);
     const [subCourses, setSubCourses] = useState([]);
     const [loading, setLoading] = useState(false);
     const [errorMessage, setErrorMessage] = useState('');
-    const [imagePreview, setImagePreview] = useState('');
 
     // Fetch course titles
     useEffect(() => {
@@ -56,19 +54,6 @@ const SubcourseAdmin = ({ fetchCourses }) => {
         setSubCourseData((prev) => ({ ...prev, [name]: value }));
     };
 
-    // Handle image upload
-    const handleImageChange = (e) => {
-        const file = e.target.files[0];
-        if (file) {
-            const reader = new FileReader();
-            reader.onloadend = () => {
-                setSubCourseData((prev) => ({ ...prev, image: reader.result }));
-                setImagePreview(reader.result);
-            };
-            reader.readAsDataURL(file);
-        }
-    };
-
     // Handle form submission
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -97,9 +82,7 @@ const SubcourseAdmin = ({ fetchCourses }) => {
                 duration: '',
                 time: '',
                 lecturer: '',
-                image: '',
             });
-            setImagePreview('');
         } catch (error) {
             setErrorMessage('Error submitting sub-course. Please try again.');
             console.error('Error submitting sub-course:', error);
@@ -111,8 +94,7 @@ const SubcourseAdmin = ({ fetchCourses }) => {
 
     // Handle edit click
     const handleEditClick = (course) => {
-        setSubCourseData(course);
-        setImagePreview(course.image); // Preview the selected course's image
+        setSubCourseData(course);// Preview the selected course's image
     };
 
     // Handle delete click
@@ -228,10 +210,6 @@ const SubcourseAdmin = ({ fetchCourses }) => {
                     required
                 />
 
-                {/* Image Upload */}
-                <input type="file" onChange={handleImageChange} />
-                {imagePreview && <img src={imagePreview} alt="Preview" className="image-preview" />}
-
                 {/* Submit Button */}
                 <button type="submit" disabled={loading}>
                     {loading ? 'Submitting...' : 'Submit Sub Course'}
@@ -244,7 +222,7 @@ const SubcourseAdmin = ({ fetchCourses }) => {
                 {subCourses.length > 0 ? (
                     subCourses.map((course) => (
                         <div key={course._id} className="subcourse-card">
-                            {course.image && <img src={course.image} alt={course.title} className="course-image" />}
+                            
                             <h3>{course.title}</h3>
                             <p><strong>Category:</strong> {course.category}</p>
                             <p><strong>Description:</strong> {course.description}</p>
