@@ -57,6 +57,7 @@ const SubcourseCard = ({ subcourse }) => {
   return (
     <div className="subcourse-card">
       <h3>{subcourse.title}</h3>
+      <h2>{subcourse.category}</h2>
       <p><strong></strong> {subcourse.description}</p>
 
       {/* Course Footer */}
@@ -111,14 +112,14 @@ const SubcourseCard = ({ subcourse }) => {
               <div className="detail-value">{subcourse.lecturer}</div>
             </div>
             <button
-  className="apply-btn"
-  onClick={() => {
-    const sectionTitle = subcourse.sectionTitle || 'Default Class';  // Fallback value
-    window.location.href = `/form?class=${sectionTitle}&section=${subcourse.title}`;
-  }}
->
-  Apply For Course
-</button>
+              className="apply-btn"
+              onClick={() => {
+                 const sectionTitle = subcourse.category || 'Default Class';  // Fallback value
+                window.location.href = `/form?class=${sectionTitle}&section=${subcourse.title}`;
+              }}
+            >
+              Apply For Course
+            </button>
 
 
           </div>

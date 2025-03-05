@@ -120,17 +120,23 @@ const CourseAdmin = () => {
                 </button>
             </form>
             <h2>Courses</h2>
+            <div className='course-list'>
+            
             <ul>
                 {courses.map((course) => (
                     <li key={course._id}>
                         <h3>{course.title}</h3>
                         <p>{course.description}</p>
                         {course.image && <img src={course.image} alt={course.title} className="image-preview" />}
+                        <div className='button-container'>
                         <button className='edit-button' onClick={() => handleUpdateClick(course)}>Edit</button>
                         <button className='delete-button' onClick={() => handleDelete(course._id)}>Delete</button>
+                        </div>
                     </li>
                 ))}
             </ul>
+            </div>
+            
         </div>
     );
 };

@@ -136,16 +136,113 @@ h1 {
     line-height: 1.5;
 }
 
-
-
-.course-admin li {
+.subcourse-admin{
+    margin-top: 40px;
     display: grid;
-    grid-template-rows: auto auto;
-    justify-content: start;
+    grid-template-rows: repeat(auto-fit, minmax(100px, 1fr));
+    gap: 2px;
 }
 
-.edit-button {
+.subcourse-list {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); /* Ensures 3 columns */
+    gap: 20px;
+}
+
+/* Sub-course card styling */
+.subcourse-card {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.course-list {
+    display: flex;
+    flex-direction: column; /* Three columns */
+    gap: 20px; /* Space between items */
+    width: 100%; /* Ensure it takes full width */
+    max-width: 1200px; /* Optional: Adjust based on your layout */
+    margin: 0 auto; /* Center align */
+}
+
+.course-list ul{
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); /* Ensures 3 columns */
+    gap: 20px;
+}
+
+/* Ensure each course item aligns properly */
+.course-list li {
+    background: #f9f9f9;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+/* Course image */
+.course-admin .image-preview {
+    max-width: 50%;
+    height: auto;
+    border-radius: 8px;
+    margin: 10px 0;
+}
+
+/* Button container */
+.course-admin .button-container {
+    display: flex;
+    justify-content: space-between;
     width: 100%;
+    margin-top: 10px;
+}
+
+/* Buttons */
+.course-admin .edit-button {
+    background-color: green;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    border-radius: 5px;
+    flex: 1;
+    margin-right: 5px;
+}
+
+.course-admin .delete-button {
+    background-color: red;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    border-radius: 5px;
+    flex: 1;
+    margin-left: 5px;
+}
+
+
+
+
+.subcourse-card .details{
+    font-size: 14px;
+    color: #4d4d4d;
+    line-height: 1.6;
+    width: 35%;
+    text-align: justify;
+}
+.subcourse-card .button-container
+{
+    grid-template-columns: repeat(2, 1fr);
+}
+.subcourse-card .edit-button {
+    width: 100px;
     align-items: center;
     text-align: center;
     justify-content: center;
@@ -154,7 +251,7 @@ h1 {
     border: none;
     padding: 5px 5px;
     border-radius: 5px;
-    margin-bottom: 10px;
+    margin-right: 50px;
     font-size: 14px;
     cursor: pointer;
 }
@@ -163,7 +260,8 @@ h1 {
     background-color: #218838;
 }
 
-.delete-button {
+.subcourse-card .delete-button {
+    width: 100px;
     background-color: #dc3545;
     justify-content: center;
     align-items: center;
@@ -172,6 +270,7 @@ h1 {
     border: none;
     padding: 5px 5px;
     border-radius: 5px;
+    margin-left: 80px;
     font-size: 14px;
     cursor: pointer;
 }
@@ -189,4 +288,30 @@ h1 {
     border-radius: 5px;
     margin-bottom: 20px;
     text-align: center;
+}
+
+
+@media screen and (max-width: 768px) {
+    .subcourse-list {
+        grid-template-columns: 1fr; /* 1 column for mobile screens */
+    }
+    .course-admin ul {
+        grid-template-columns: 1fr; /* 1 column for mobile screens */
+    }
+
+    .button-container {
+        flex-direction: column;
+    }
+
+    .edit-button,
+    .delete-button {
+        width: 100%;
+        margin: 5px 0;
+    }
+}
+/* Responsive Design */
+@media screen and (max-width: 1024px) {
+    .course-admin ul {
+        grid-template-columns: repeat(2, 1fr); /* 2 columns for tablets */
+    }
 }

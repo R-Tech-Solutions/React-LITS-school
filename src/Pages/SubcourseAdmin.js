@@ -115,10 +115,10 @@ const SubcourseAdmin = ({ fetchCourses }) => {
             <h1>{subCourseData._id ? 'Edit Sub Course' : 'Add Sub Course'}</h1>
             <form onSubmit={handleSubmit} className="course-form">
                 {/* Select Course Title */}
-                <select 
-                    name="title" 
-                    value={subCourseData.title} 
-                    onChange={handleInputChange} 
+                <select
+                    name="title"
+                    value={subCourseData.title}
+                    onChange={handleInputChange}
                     required
                 >
                     <option value="" disabled>Select a Course</option>
@@ -222,19 +222,21 @@ const SubcourseAdmin = ({ fetchCourses }) => {
                 {subCourses.length > 0 ? (
                     subCourses.map((course) => (
                         <div key={course._id} className="subcourse-card">
-                            
+
                             <h3>{course.title}</h3>
-                            <p><strong>Category:</strong> {course.category}</p>
-                            <p><strong>Description:</strong> {course.description}</p>
-                            <p><strong>Entry:</strong> {course.entry}</p>
-                            <p><strong>Payment:</strong> {course.payment}</p>
-                            <p><strong>Structure:</strong> {course.structure}</p>
-                            <p><strong>Start Date:</strong> {course.startDate}</p>
-                            <p><strong>Duration:</strong> {course.duration}</p>
-                            <p><strong>Time:</strong> {course.time}</p>
-                            <p><strong>Lecturer:</strong> {course.lecturer}</p>
-                            <button onClick={() => handleEditClick(course)}>Edit</button>
-                            <button onClick={() => handleDeleteClick(course._id)}>Delete</button>
+                            <p className='details'><strong>Category:</strong> {course.category}</p>
+                            <p className='details'><strong>Description:</strong> {course.description}</p>
+                            <p className='details'><strong>Entry:</strong> {course.entry}</p>
+                            <p className='details'><strong>Payment:</strong> {course.payment}</p>
+                            <p className='details'><strong>Structure:</strong> {course.structure}</p>
+                            <p className='details'><strong>Start Date:</strong> {course.startDate}</p>
+                            <p className='details'><strong>Duration:</strong> {course.duration}</p>
+                            <p className='details'><strong>Time:</strong> {course.time}</p>
+                            <p className='details'><strong>Lecturer:</strong> {course.lecturer}</p>
+                            <div className='button-container'>
+                                <button className='edit-button' onClick={() => handleEditClick(course)}>Edit</button>
+                                <button className='delete-button' onClick={() => handleDeleteClick(course._id)}>Delete</button>
+                            </div>
                         </div>
                     ))
                 ) : (

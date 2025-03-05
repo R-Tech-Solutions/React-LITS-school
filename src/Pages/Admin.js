@@ -151,9 +151,9 @@ const AdminPanel = () => {
                         {isSubmitting ? "Submitting..." : editingId ? "Update Lecturer" : "Add Lecturer"}
                     </button>
                 </form>
-
+                <h2>Lecturers</h2>
                 <div className="lecturers-list">
-                    <h2>Lecturers</h2>
+                    
                     {lecturers.map((lecturer) => (
                         <div key={lecturer._id} className="lecturer-card">
                             <div className="lecturer-info">

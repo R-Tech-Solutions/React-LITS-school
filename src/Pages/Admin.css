@@ -113,6 +113,7 @@ h2 {
     display: flex;
     flex-direction: column;
     gap: 15px;
+    margin-bottom: 30px;
 }
 
 .form-group {
@@ -170,10 +171,14 @@ button.submit-btn:hover {
 /* Lecturers Section */
 .lecturers-list {
     margin-top: 30px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); /* Ensures 3 columns */
+    gap: 20px;
     
 }
 
 .lecturer-card {
+    
     background-color: #fff;
     border-radius: 8px;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
@@ -219,6 +224,8 @@ button.edit-btn {
     border: none;
     padding: 8px 12px;
     border-radius: 5px;
+    margin-top: 5px;
+    margin-left: 50px;
     font-size: 14px;
     cursor: pointer;
 }
@@ -233,6 +240,7 @@ button.delete-btn {
     border: none;
     padding: 8px 12px;
     border-radius: 5px;
+    margin-top: 5px;
     font-size: 14px;
     cursor: pointer;
 }
