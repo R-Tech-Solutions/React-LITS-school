@@ -38,7 +38,7 @@ export default function ContactPage() {
       allowOutsideClick: false,
       didOpen: () => {
         Swal.showLoading();
-      }
+      } 
     });
   
     try {
