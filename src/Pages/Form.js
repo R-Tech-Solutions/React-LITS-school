@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import './formstyle.css';
 import { Link } from 'react-router-dom';
 import Swal from 'sweetalert2';
+import { backEndURL } from "../Backendurl";
 
 const Form = () => {
   const [classValue, setClassValue] = useState("");
@@ -21,19 +22,53 @@ const Form = () => {
     setFormData({ ...formData, [name]: value });
   };
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
 
-    // Display success alert
-    Swal.fire({
-      icon: 'success',
-      title: 'Form Submitted',
-      text: 'Your admission form has been submitted successfully!',
-      confirmButtonText: 'OK',
-    });
+    // Construct form data object
+    const submissionData = {
+      ...formData,
+      classValue,
+      sectionValue,
+    };
 
+    try {
+      const response = await fetch(`${backEndURL}/api/mail/submit-form`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(submissionData),
+      });
+
+      const result = await response.json();
+
+      if (response.ok) {
+        // Success alert
+        Swal.fire({
+          icon: 'success',
+          title: 'Form Submitted',
+          text: result.message,
+          confirmButtonText: 'OK',
+        });
+
+        // Clear form
+        setFormData({});
+        setClassValue("");
+        setSectionValue("");
+      } else {
+        throw new Error(result.message);
+      }
+    } catch (error) {
+      console.error('Error submitting form:', error);
+      Swal.fire({
+        icon: 'error',
+        title: 'Submission Failed',
+        text: 'There was an issue submitting your form. Please try again.',
+        confirmButtonText: 'OK',
+      });
+    }
   };
-
   const handleReset = () => {
     Swal.fire({
       title: 'Are you sure?',
@@ -66,7 +101,7 @@ const Form = () => {
         <div className="back-to-courses">
           <a href="/" className="back-btn">Back</a>
         </div>
-        
+
       </div>
 
 

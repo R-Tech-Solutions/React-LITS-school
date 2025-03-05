@@ -1,35 +1,75 @@
+const express = require('express');
 const nodemailer = require('nodemailer');
 require('dotenv').config();
 
-const sendMail = async (req, res) => {
-    try {
-        const { formData } = req.body;
+const router = express.Router();
 
-        const transporter = nodemailer.createTransport({
-            host: 'smtp.gmail.com',
-            port: 465, // Use 587 if not using SSL
-            secure: true, // Set to false if using port 587
-            auth: {
-              user: process.env.EMAIL_USER,
-              pass: process.env.EMAIL_PASS,
-            },
-          });
-          
+// Nodemailer transporter setup
+const transporter = nodemailer.createTransport({
+  service: 'gmail',
+  auth: {
+    user: process.env.EMAIL_USER,
+    pass: process.env.EMAIL_PASS,
+  },
+});
 
-        const mailOptions = {
-            from: process.env.EMAIL,
-            to: process.env.RECEIVER_EMAIL, // Can be a fixed email or dynamic
-            subject: 'New Admission Form Submission',
-            text: `Form Details: \n\n ${JSON.stringify(formData, null, 2)}`,
-        };
+// Controller function to handle form submission and send email
+const submitFormController = async (req, res) => {
+  try {
+    const {
+      firstName,
+      lastName,
+      email,
+      mobile,
+      address,
+      guardianName,
+      guardianMobile,
+      guardianRelation,
+      classValue,
+      sectionValue,
+    } = req.body;
 
-        await transporter.sendMail(mailOptions);
+    // Construct email content
+    const message = `
+      New Admission Form Submission:
+      Name: ${firstName} ${lastName}
+      Email: ${email}
+      Mobile: ${mobile}
+      Address: ${address}
+      Class: ${classValue}
+      Section: ${sectionValue}
+      Guardian Name: ${guardianName}
+      Guardian Relation: ${guardianRelation}
+      Guardian Mobile: ${guardianMobile}
+    `;
 
-        res.status(200).json({ message: 'Email sent successfully!' });
-    } catch (error) {
-        console.error('Error sending email:', error);
-        res.status(500).json({ message: 'Failed to send email', error });
-    }
+    // Send email to admin (your email)
+    await transporter.sendMail({
+      from: email, // User's email
+      to: process.env.EMAIL_USER, // Admin's email
+      subject: 'New Admission Form Submission',
+      text: message,
+    });
+
+    // Send confirmation email to the user
+    await transporter.sendMail({
+      from: process.env.EMAIL_USER,
+      to: email,
+      subject: 'Admission Form Submission Successful',
+      text: 'Thank you for contacting us! Your admission form has been received successfully.',
+    });
+
+    res.status(200).json({ success: true, message: 'Form submitted and emails sent successfully' });
+  } catch (error) {
+    console.error('Error sending email:', error);
+    res.status(500).json({ success: false, message: 'Error submitting form' });
+  }
 };
 
-module.exports = { sendMail };
+// Route to handle form submission
+router.post('/submit-form', submitFormController);
+
+// Export the controller function
+module.exports = {
+  submitFormController,
+};

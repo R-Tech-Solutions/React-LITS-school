@@ -1,8 +1,9 @@
 const express = require('express');
-const { sendMail } = require('../controllers/mailController');
+const { submitFormController } = require('../controllers/mailController');
 
 const router = express.Router();
 
-router.post('/send-mail', sendMail);
+// Route to handle form submission
+router.post('/submit-form', submitFormController);
 
 module.exports = router;

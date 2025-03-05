@@ -18,7 +18,7 @@ const Subcourse = () => {
         setSubcourses(response.data);
         setLoading(false);
       } catch (err) {
-        setError('Sub-courses not found or failed to load');
+        setError('Sub-courses not found ');
         setLoading(false);
       }
     };
@@ -26,8 +26,21 @@ const Subcourse = () => {
     fetchSubcourses();
   }, [courseTitle]);
 
-  if (loading) return <h2>Loading...</h2>;
-  if (error) return <h2>{error}</h2>;
+  if (loading) return (
+    <div className="spinner">
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+    </div>
+  );
+  if (error) return <h2 className="error-message">{error}</h2>;
 
   return (
     <div className="subcourses-container">
@@ -57,7 +70,6 @@ const SubcourseCard = ({ subcourse }) => {
   return (
     <div className="subcourse-card">
       <h3>{subcourse.title}</h3>
-      <h2>{subcourse.category}</h2>
       <p><strong></strong> {subcourse.description}</p>
 
       {/* Course Footer */}
@@ -114,7 +126,7 @@ const SubcourseCard = ({ subcourse }) => {
             <button
               className="apply-btn"
               onClick={() => {
-                 const sectionTitle = subcourse.category || 'Default Class';  // Fallback value
+                const sectionTitle = subcourse.category || 'Default Class';  // Fallback value
                 window.location.href = `/form?class=${sectionTitle}&section=${subcourse.title}`;
               }}
             >

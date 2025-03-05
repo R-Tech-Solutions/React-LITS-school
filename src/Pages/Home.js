@@ -163,7 +163,7 @@ const Home = () => {
                             <a href="#course">Courses</a>
                         </li>
                         <li>
-                            <Link to="/form">Contact</Link>
+                            <Link to="/contact">Contact</Link>
                         </li>
                     </ul>
                     {<img id="menu" src={menuIcon} alt="Menu Icon" />}
