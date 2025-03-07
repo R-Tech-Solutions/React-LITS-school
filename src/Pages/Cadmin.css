@@ -309,7 +309,7 @@ h1 {
     .course-form textarea,
     .course-form button,
     .course-form select {
-        width: 90%;
+        width: 75%;
         background-color: #fff;
         font-size: 14px;
         border-radius: 5px;
