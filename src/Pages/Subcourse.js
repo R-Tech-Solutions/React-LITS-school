@@ -84,7 +84,7 @@ const SubcourseCard = ({ subcourse }) => {
             </div>
           )}
           <div className="info-item">
-            <i className="fa fa-money"></i> Rs. {subcourse.price}
+            <i className="fa fa-money"></i>{subcourse.payment}
           </div>
         </div>
       </div>
@@ -109,7 +109,7 @@ const SubcourseCard = ({ subcourse }) => {
             </div>
             <div className="detail-row">
               <div className="detail-label">Entry Requirements</div>
-              <div className="detail-value">{subcourse.requirements}</div>
+              <div className="detail-value">{subcourse.entry}</div>
             </div>
             <div className="detail-row">
               <div className="detail-label">Payments</div>
