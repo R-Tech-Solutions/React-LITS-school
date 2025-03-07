@@ -302,6 +302,8 @@ h1 {
     }
 
     .subcourse-card {
+        display: flex;
+        flex-direction: column;
         width: 100%; /* Ensure it spans full width */
     }
 
@@ -317,6 +319,14 @@ h1 {
         margin: 5px 5px 5px 0px;
     }
 
+    .subcourse-card .details{
+        font-size: 14px;
+        color: #4d4d4d;
+        line-height: 1.6;
+        width: 100%;
+        text-align: justify;
+    }
+
     .button-container {
         flex-direction: column;
     }
@@ -335,6 +345,33 @@ h1 {
     .delete-button {
         width: 100%;
         margin: 5px 0;
+    }
+    .subcourse-card .edit-button {
+        width: 100px;
+        align-items: center;
+        text-align: center;
+        justify-content: center;
+        background-color: #28a745;
+        color: #fff;
+        border: none;
+        padding: 5px 5px;
+        border-radius: 5px;
+        margin-right: 50px;
+        font-size: 14px;
+        cursor: pointer;
+    }
+    .subcourse-card .delete-button {
+        width: 100px;
+        background-color: #dc3545;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+        color: #fff;
+        border: none;
+        padding: 5px 5px;
+        border-radius: 5px;
+        font-size: 14px;
+        cursor: pointer;
     }
 }
 

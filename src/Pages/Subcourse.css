@@ -335,12 +335,19 @@
     }
   
     .subcourse-card {
+      display: flex;
       flex-direction: column;
       width: 100%;
+    }
+    .subcourse-card .details-content{
+      display: flex;
+      flex-direction: column;
+      width: 40%;
     }
   
     .detail-row {
       flex-direction: column;
+      width: 50%;
     }
   
     .detail-label {
@@ -362,6 +369,8 @@
   
     .info-item {
       justify-content: left;
+      text-align: left;
+      margin-bottom: 10px;
     }
   
     .back-to-courses {
@@ -370,6 +379,12 @@
     }
   
     .subcourse-footer {
+      text-align: left;
       text-align: center;
+    }
+
+
+    .see-more-btn {
+      width: 40%;
     }
   }
