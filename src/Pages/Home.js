@@ -6,6 +6,7 @@ import menuIcon from "../Assets/images/menu.png";
 import { Link } from "react-router-dom";
 import { backEndURL } from "../Backendurl";
 import Courses from "./Courses";
+import "../App.css";
 
 const LecturersSection = () => {
     const [lecturers, setLecturers] = useState([]);

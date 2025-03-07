@@ -325,7 +325,7 @@ nav .navigation ul li a:hover {
 }
 
 #course .courses img {
-  height: 180px;
+  height: 150px;
   object-fit: cover;
   border-radius: 10px;
   align-items: center;
@@ -617,10 +617,27 @@ footer .copyright {
   }
 
   #experts .experts-box .profile {
-    flex: 0 0 auto;
-    width: 18%;
+    text-align: center;
+    justify-content: center;
+    width: 20%;
     margin: 0 10px;
+    align-items: center;
   }
+
+  #experts .experts-box {
+    align-items: center;
+     margin-top: 20px;
+     width: 100%;
+     text-align: center;
+   }
+
+   #experts .experts-box .profile h6{
+    align-items: center;
+     text-align: center;
+     font-size: 14px;
+     justify-content: center;
+     align-items: center;
+   }
 
   .sliding-container {
     display: flex;
