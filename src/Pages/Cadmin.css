@@ -163,6 +163,8 @@ h1 {
 
 .course-list {
     display: flex;
+    max-height: 700px;
+    overflow-y: auto;
     flex-direction: column; /* Three columns */
     gap: 20px; /* Space between items */
     width: 100%; /* Ensure it takes full width */
@@ -298,6 +300,8 @@ h1 {
         flex-direction: column;
     }
     .subcourse-list {
+        max-height: 700px;
+        overflow-y: auto;
         grid-template-columns: 1fr; /* 1 column for mobile */
     }
 
