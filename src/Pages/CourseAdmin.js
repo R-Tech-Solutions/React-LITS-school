@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import axios from 'axios';
 import './Cadmin.css';
 import { backEndURL } from "../Backendurl";
@@ -14,6 +14,7 @@ const CourseAdmin = () => {
     const [errorMessage, setErrorMessage] = useState('');
     const [imagePreview, setImagePreview] = useState('');
     const [courses, setCourses] = useState([]);
+    const formRef = useRef(null); // Create a ref for the form
 
     useEffect(() => {
         fetchCourses();
@@ -79,6 +80,7 @@ const CourseAdmin = () => {
         });
         setImagePreview(course.image || '');
         setSelectedCourseId(course._id);
+        formRef.current.scrollIntoView({ behavior: 'smooth' }); // Scroll to the form
     };
 
     const handleDelete = async (id) => {
@@ -98,7 +100,7 @@ const CourseAdmin = () => {
         <div className="course-admin">
             {errorMessage && <div className="error-message">{errorMessage}</div>}
             <h1>{selectedCourseId ? 'Edit Course' : 'Add Course'}</h1>
-            <form onSubmit={handleSubmit} className="course-form">
+            <form ref={formRef} onSubmit={handleSubmit} className="course-form">
                 <input
                     name="title"
                     value={formData.title}

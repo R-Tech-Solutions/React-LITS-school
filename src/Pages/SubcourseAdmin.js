@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import axios from 'axios';
 import './Cadmin.css';
 import { backEndURL } from "../Backendurl";
@@ -22,6 +22,7 @@ const SubcourseAdmin = ({ fetchCourses }) => {
     const [subCourses, setSubCourses] = useState([]);
     const [loading, setLoading] = useState(false);
     const [errorMessage, setErrorMessage] = useState('');
+    const formRef = useRef(null);
 
     // Fetch course titles
     useEffect(() => {
@@ -94,7 +95,8 @@ const SubcourseAdmin = ({ fetchCourses }) => {
 
     // Handle edit click
     const handleEditClick = (course) => {
-        setSubCourseData(course);// Preview the selected course's image
+        setSubCourseData(course);
+        formRef.current.scrollIntoView({ behavior: 'smooth' });
     };
 
     // Handle delete click
@@ -113,22 +115,21 @@ const SubcourseAdmin = ({ fetchCourses }) => {
         <div className="subcourse-admin">
             {errorMessage && <div className="error-message">{errorMessage}</div>}
             <h1>{subCourseData._id ? 'Edit Sub Course' : 'Add Sub Course'}</h1>
-            <form onSubmit={handleSubmit} className="course-form">
+            <form onSubmit={handleSubmit} className="course-form" ref={formRef}>
                 {/* Select Course Title */}
-                <select
-                    name="title"
-                    value={subCourseData.title}
-                    onChange={handleInputChange}
-                    required
-                >
-                    <option value="" disabled>Select a Course</option>
-                    {courseTitles.map((course) => (
-                        <option key={course._id} value={course.title}>
-                            {course.title}
-                        </option>
-                    ))}
-                </select>
-
+                    <select
+                        name="title"
+                        value={subCourseData.title}
+                        onChange={handleInputChange}
+                        required
+                    >
+                        <option value="" disabled>Select a Course</option>
+                        {courseTitles.map((course) => (
+                            <option key={course._id} value={course.title}>
+                                {course.title}
+                            </option>
+                        ))}
+                    </select>
                 {/* Course Category */}
                 <input
                     name="category"
