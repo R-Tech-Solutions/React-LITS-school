@@ -300,11 +300,26 @@ h1 {
         flex-direction: column;
     }
     .subcourse-list {
+        width: 90%;
         max-height: 700px;
         overflow-y: auto;
         grid-template-columns: 1fr; /* 1 column for mobile */
     }
-
+    .course-form input,
+    .course-form textarea,
+    .course-form button,
+    .course-form select {
+        width: 90%;
+        background-color: #fff;
+        font-size: 14px;
+        border-radius: 5px;
+        border: none;
+        outline: none;
+        color: #002a45;
+        padding: 20px 0px;
+        margin-bottom: 5px;
+        box-shadow: 4px 4px 4px gray;
+    }
     .subcourse-card {
         display: flex;
         flex-direction: column;
