@@ -292,11 +292,39 @@ h1 {
 
 
 @media screen and (max-width: 768px) {
-    .subcourse-list {
-        grid-template-columns: 1fr; /* 1 column for mobile screens */
+
+    .course-list ul{
+        display: flex;
+        flex-direction: column;
     }
-    .course-admin ul {
-        grid-template-columns: 1fr; /* 1 column for mobile screens */
+    .subcourse-list {
+        grid-template-columns: 1fr; /* 1 column for mobile */
+    }
+
+    .subcourse-card {
+        width: 100%; /* Ensure it spans full width */
+    }
+
+    /* Stack buttons for better layout */
+    .subcourse-card .button-container {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .subcourse-card .edit-button,
+    .subcourse-card .delete-button {
+        width: 10%;
+        margin: 5px 5px 5px 0px;
+    }
+
+    .button-container {
+        flex-direction: column;
+    }
+
+    .edit-button,
+    .delete-button {
+        width: 100%;
+        margin: 5px 0;
     }
 
     .button-container {
@@ -309,9 +337,4 @@ h1 {
         margin: 5px 0;
     }
 }
-/* Responsive Design */
-@media screen and (max-width: 1024px) {
-    .course-admin ul {
-        grid-template-columns: repeat(2, 1fr); /* 2 columns for tablets */
-    }
-}
+

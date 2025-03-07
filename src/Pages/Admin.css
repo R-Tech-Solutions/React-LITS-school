@@ -258,4 +258,9 @@ button.delete-btn:hover {
     button.submit-btn, button.edit-btn, button.delete-btn {
         font-size: 14px;
     }
+    .lecturers-list {
+        display: flex;
+        flex-direction: column;
+        
+    }
 }

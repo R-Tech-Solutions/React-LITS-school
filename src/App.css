@@ -325,10 +325,9 @@ nav .navigation ul li a:hover {
 }
 
 #course .courses img {
-  height: 200px;
+  height: 180px;
+  object-fit: cover;
   border-radius: 10px;
-  background-size: cover;
-  background-position: center;
   align-items: center;
   justify-content: center;
   margin-bottom: 20px;
