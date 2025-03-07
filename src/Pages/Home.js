@@ -41,13 +41,15 @@ const LecturersSection = () => {
             </p>
             <div className="experts-box">
                 <Marquee gradient={false} speed={50}>
-                    {lecturers.map((lecturer, index) => (
-                        <div className="profile" key={index}>
-                            <img src={lecturer.image} alt={lecturer.name} />
-                            <h6>{lecturer.name}</h6>
-                            <p>{lecturer.subject}</p>
-                        </div>
-                    ))}
+                    <div style={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
+                        {lecturers.map((lecturer, index) => (
+                            <div className="profile" key={index}>
+                                <img src={lecturer.image} alt={lecturer.name} />
+                                <h6>{lecturer.name}</h6>
+                                <p>{lecturer.subject}</p>
+                            </div>
+                        ))}
+                    </div>
                 </Marquee>
             </div>
         </section>

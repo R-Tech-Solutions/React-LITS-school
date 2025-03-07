@@ -616,28 +616,42 @@ footer .copyright {
     transform: scale(1.03);
   }
 
-  #experts .experts-box .profile {
-    text-align: center;
-    justify-content: center;
-    width: 20%;
-    margin: 0 10px;
-    align-items: center;
-  }
-
   #experts .experts-box {
-    align-items: center;
-     margin-top: 20px;
-     width: 100%;
-     text-align: center;
-   }
+    display: flex;
+    justify-content: center; /* Centers items horizontally */
+    align-items: center; /* Centers items vertically */
+    text-align: center;
+    margin-top: 20px;
+    width: 100%;
+}
 
-   #experts .experts-box .profile h6{
-    align-items: center;
-     text-align: center;
-     font-size: 14px;
-     justify-content: center;
-     align-items: center;
-   }
+#experts .experts-box .profile {
+    display: flex;
+    flex-direction: column; /* Stack items vertically */
+    align-items: center; /* Center everything horizontally */
+    justify-content: center;
+    text-align: center;
+    width: 180px; /* Adjust width */
+    margin: 0 10px;
+    padding: 10px;
+}
+
+#experts .experts-box .profile img {
+    width: 100%; /* Ensures image fits inside the profile box */
+    height: 200px; /* Adjust height */
+    border-radius: 10px; /* Optional: Rounded corners */
+
+}
+
+#experts .experts-box .profile h6,
+#experts .experts-box .profile p {
+    margin: 5px 0;
+    font-size: 14px;
+    text-align: center;
+    width: 100%;
+    white-space: nowrap; /* Prevents text from wrapping */
+}
+
 
   .sliding-container {
     display: flex;
