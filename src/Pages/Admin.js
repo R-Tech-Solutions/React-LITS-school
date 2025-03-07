@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import axios from "axios";
 import './Admin.css';
 import Cadmin from './Cadmin';
@@ -16,6 +16,7 @@ const AdminPanel = () => {
     const [editingId, setEditingId] = useState(null);
     const [loading, setLoading] = useState(true);
     const [isSubmitting, setIsSubmitting] = useState(false);
+    const formRef = useRef(null);
 
     useEffect(() => {
         fetchLecturers();
@@ -78,6 +79,8 @@ const AdminPanel = () => {
             subject: lecturer.subject,
             image: lecturer.image,
         });
+        formRef.current.scrollIntoView({ behavior: "smooth" });
+        window.scrollTo({ top: 0, behavior: 'smooth' }); // Scroll to the top of the form
     };
 
     const handleDelete = async (id) => {
@@ -114,7 +117,7 @@ const AdminPanel = () => {
             <div className="admin-panel" id="lecturers">
                 <h1 className="panel-title">Add Lecturer</h1>
 
-                <form onSubmit={handleSubmit} className="form-container">
+                <form onSubmit={handleSubmit} className="form-container" ref={formRef}>
                     <div className="form-group">
                         <label>Name:</label>
                         <input

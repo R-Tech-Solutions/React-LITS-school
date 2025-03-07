@@ -132,8 +132,6 @@ const SubcourseCard = ({ subcourse }) => {
             >
               Apply For Course
             </button>
-
-
           </div>
         </div>
       )}
