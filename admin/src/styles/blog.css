@@ -1,0 +1,194 @@
+/* General Styles */
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: #f4f4f9;
+  color: #333;
+}
+
+.admin-panel {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: #fff;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+}
+
+h1 {
+  text-align: left;
+  margin-bottom: 20px;
+  color: #444;
+}
+
+/* Form Styles */
+.blog-form {
+  display: flex; 
+  flex-wrap: wrap;
+  gap: 15px;
+  margin-bottom: 30px;
+  background-color: #f9f9f9;
+  padding: 20px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  justify-content: space-between;
+}
+
+.blog-form input,
+.blog-form textarea,
+.blog-form button,
+.blog-form select {
+  width: 100%;
+  background-color: #fff;
+  font-size: 14px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  outline: none;
+  color: #002a45;
+  padding: 10px;
+  margin-bottom: 10px;
+  box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.title-section{
+  display: grid;
+  grid-template-columns: auto auto;
+}
+
+.blog-form textarea {
+  resize: vertical;
+  height: 100px;
+}
+
+.blog-form button {
+  width: auto;
+  color: #fff;
+  background-color: #71c2ff;
+  border: none;
+  padding: 10px 20px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.blog-form button:disabled {
+  background-color: #cccccc;
+  cursor: not-allowed;
+}
+
+.blog-form button:hover:not(:disabled) {
+  background-color: #0056b3;
+}
+
+/* Course List */
+.blog-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 20px;
+}
+
+.image-preview {
+  height: 200px;
+  border-radius: 5px;
+  margin-bottom: 15px;
+  object-fit: cover;
+}
+
+.blog-list h3 {
+  font-size: 18px;
+  margin-bottom: 10px;
+  color: #333;
+}
+
+.blog-list p {
+  font-size: 14px;
+  color: #666;
+  line-height: 1.5;
+}
+
+/* Course List */
+.blog-list {
+  display: flex;
+  flex-direction: column;
+  max-height: 700px;
+  overflow-y: auto;
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  gap: 20px;
+}
+
+.blog-list ul {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 20px;
+}
+
+.blog-list li {
+  background: #f9f9f9;
+  padding: 20px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  text-align: left;
+  display: flex;
+  flex-direction: column;
+  align-items: left;
+}
+.blog-admin h2 {
+  text-align: left;
+  
+}
+
+.blog-admin .button-container {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  margin-top: 10px;
+}
+
+/* Buttons */
+.blog-admin .edit-button {
+  background-color: green;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  cursor: pointer;
+  border-radius: 5px;
+  flex: 1;
+  margin-right: 5px;
+}
+
+.blog-admin .edit-button:hover {
+  background-color: #014b11;
+}
+
+.blog-admin .delete-button {
+  background-color: red;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  cursor: pointer;
+  border-radius: 5px;
+  flex: 1;
+  margin-left: 5px;
+}
+
+.blog-admin .delete-button:hover {
+  background-color: rgb(148, 1, 1);
+}
+
+/* Responsive */
+@media screen and (max-width: 768px) {
+  .blog-list ul {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .blog-form input,
+  .blog-form textarea,
+  .blog-form button,
+  .blog-form select {
+    width: 100%;
+  }
+}

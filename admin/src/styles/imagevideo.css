@@ -1,0 +1,88 @@
+.image-video-container {
+    font-family: Arial, sans-serif;
+    padding: 20px;
+    max-width: 900px;
+    margin: 0 auto;
+    background-color: #f8f9fa;
+    border-radius: 8px;
+}
+
+.image-video-form {
+    margin-bottom: 20px;
+}
+
+.image-video-form-button{
+    width: auto;
+    color: #fff;
+    background-color: #71c2ff;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+}
+
+.image-video-form button:hover {
+    background-color: #0056b3;
+}
+
+.image-video-form input {
+    width: 100%;
+    background-color: #fff;
+    font-size: 14px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    outline: none;
+    color: #002a45;
+    padding: 10px;
+    margin-bottom: 10px;
+    box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.image-preview,
+.video-preview {
+    max-width: 300px;
+    margin: 10px 0;
+    border-radius: 8px;
+}
+
+.media-list {
+    margin-top: 20px;
+}
+
+.media-list ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+.media-list li {
+    margin-bottom: 20px;
+}
+
+.button-container {
+    display: flex;
+    justify-content: space-between;
+}
+
+.edit-button,
+.delete-button {
+    padding: 5px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.edit-button {
+    background-color: #007bff;
+    color: white;
+}
+
+.delete-button {
+    background-color: #dc3545;
+    color: white;
+}
+
+.edit-button:hover {
+    background-color: #0056b3;
+}
+
+.delete-button:hover {
+    background-color: #c82333;
+}
