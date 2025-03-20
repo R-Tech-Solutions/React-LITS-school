@@ -24,11 +24,23 @@ const Form = () => {
   const handleSubmit = async (event) => {
     event.preventDefault();
 
+    // Show loading alert
+    Swal.fire({
+      title: 'Submitting...',
+      text: 'Please wait while we submit your form.',
+      allowOutsideClick: false,
+      didOpen: () => {
+        Swal.showLoading();
+      },
+    });
+
     // Construct form data object
     const submissionData = {
       ...formData,
       classValue,
       sectionValue,
+      gender: formData.gender,
+      dob: formData.dob,
     };
 
     try {

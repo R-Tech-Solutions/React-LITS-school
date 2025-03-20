@@ -1,5 +1,7 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useEffect, useRef } from "react";
+import axios from "axios";
 import "../styles/lectures.css"
+import { backEndURL } from "../Backendurl";
 
 const Lectures = () => {
     const [lecturers, setLecturers] = useState([]);
@@ -9,11 +11,29 @@ const Lectures = () => {
         image: "",
     });
     const [editingId, setEditingId] = useState(null);
+    const [loading, setLoading] = useState(true);
+    const [isSubmitting, setIsSubmitting] = useState(false);
     const formRef = useRef(null);
+
+    useEffect(() => {
+        fetchLecturers();
+    }, []);
+
+    const fetchLecturers = async () => {
+        try {
+            const response = await axios.get(`${backEndURL}/api/lecturers`);
+            setLecturers(response.data);
+            setLoading(false);
+        } catch (error) {
+            console.error("Error fetching lecturers:", error);
+            setLoading(false);
+        }
+    };
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;
-        setFormData({ ...formData, [name]: value });
+        console.log(`Updating ${name} with value:`, value); // Debugging
+        setFormData((prev) => ({ ...prev, [name]: value }));
     };
 
     const handleImageChange = (e) => {
@@ -27,28 +47,57 @@ const Lectures = () => {
         }
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        if (editingId !== null) {
-            setLecturers(lecturers.map((lecturer, index) => 
-                index === editingId ? { ...formData } : lecturer
-            ));
+        setIsSubmitting(true);
+
+        console.log("Submitting Form Data:", formData); // Debugging
+
+        try {
+            if (editingId) {
+                await axios.put(`${backEndURL}/api/lecturers/${editingId}`, formData, {
+                    headers: { "Content-Type": "application/json" },
+                });
+            } else {
+                await axios.post(`${backEndURL}/api/lecturers`, formData, {
+                    headers: { "Content-Type": "application/json" },
+                });
+            }
+            fetchLecturers();
+            setFormData({ name: "", subject: "", image: "" });
             setEditingId(null);
-        } else {
-            setLecturers([...lecturers, formData]);
+        } catch (error) {
+            console.error("Error submitting lecturer:", error);
+        } finally {
+            setIsSubmitting(false);
         }
-        setFormData({ name: "", subject: "", image: "" });
     };
 
-    const handleEdit = (index) => {
-        setEditingId(index);
-        setFormData(lecturers[index]);
-        formRef.current.scrollIntoView({ behavior: "smooth" });
+    const handleEdit = (lecturer) => {
+        console.log("Editing lecturer:", lecturer);
+        setEditingId(lecturer._id);
+        setFormData({
+            name: lecturer.name,
+            subject: lecturer.subject,
+            image: lecturer.image,
+        });
     };
 
-    const handleDelete = (index) => {
-        setLecturers(lecturers.filter((_, i) => i !== index));
+    const handleDelete = async (id) => {
+        const isConfirmed = window.confirm("Are you sure you want to delete this lecturer?");
+        if (isConfirmed) {
+            try {
+                await axios.delete(`${backEndURL}/api/lecturers/${id}`);
+                fetchLecturers();
+            } catch (error) {
+                console.error("Error deleting lecturer:", error);
+            }
+        }
     };
+
+    if (loading) {
+        
+    }
 
     return (
         <div className="admin-container">
@@ -68,7 +117,7 @@ const Lectures = () => {
                         />
                     </div>
                     <div className="form-group">
-                        <label>Subject:</label>
+                        <label>Description:</label>
                         <input
                             type="text"
                             name="subject"
@@ -94,8 +143,8 @@ const Lectures = () => {
                 </form>
                 <h2>Lecturers</h2>
                 <div className="lecturers-list">
-                    {lecturers.map((lecturer, index) => (
-                        <div key={index} className="lecturer-card">
+                    {lecturers.map((lecturer) => (
+                        <div key={lecturer._id} className="lecturer-card">
                             <div className="lecturer-info">
                                 {lecturer.image && (
                                     <img
@@ -110,10 +159,10 @@ const Lectures = () => {
                                 </div>
                             </div>
                             <div className="lecturer-actions">
-                                <button onClick={() => handleEdit(index)} className="edit-btn">
+                                <button onClick={() => handleEdit(lecturer)} className="edit-btn">
                                     Edit
                                 </button>
-                                <button onClick={() => handleDelete(index)} className="delete-btn">
+                                <button onClick={() => handleDelete(lecturer._id)} className="delete-btn">
                                     Delete
                                 </button>
                             </div>

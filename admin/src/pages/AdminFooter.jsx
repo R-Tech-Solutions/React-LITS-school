@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import axios from "axios";
 import "../styles/adminfooter.css";
 
 const AdminFooter = () => {
@@ -11,6 +12,26 @@ const AdminFooter = () => {
     instagram: "",
     tiktok: "",
   });
+
+  // Fetch Footer Data
+  useEffect(() => {
+    axios.get("http://localhost:3001/api/footer")
+      .then(response => {
+        const footerData = response.data;
+        setFormData({
+          logo: footerData.logo,
+          address: footerData.address,
+          phone: footerData.phone,
+          email: footerData.email,
+          facebook: footerData.facebook,
+          instagram: footerData.instagram,
+          tiktok: footerData.tiktok,
+        });
+      })
+      .catch(error => {
+        console.error("There was an error fetching the footer data:", error);
+      });
+  }, []);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -30,8 +51,14 @@ const AdminFooter = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    alert("Footer details updated successfully!");
-    console.log("Updated Footer Details:", formData);
+    axios.put("http://localhost:3001/api/footer", formData)
+      .then(response => {
+        alert("Footer details updated successfully!");
+        console.log("Updated Footer Details:", response.data);
+      })
+      .catch(error => {
+        console.error("Error updating footer:", error);
+      });
   };
 
   return (

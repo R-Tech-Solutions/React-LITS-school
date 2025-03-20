@@ -1,8 +1,8 @@
-import { useState } from 'react'
-import { Phone, Mail, MapPin } from 'lucide-react'
-import PhoneInput from 'react-phone-number-input'
-import 'react-phone-number-input/style.css'
-import './ContactUs.css'
+import { useState, useEffect } from 'react';
+import { Phone, Mail, MapPin } from 'lucide-react';
+import PhoneInput from 'react-phone-number-input';
+import 'react-phone-number-input/style.css';
+import './ContactUs.css';
 import { backEndURL } from "../Backendurl";
 import Swal from 'sweetalert2';
 
@@ -14,6 +14,34 @@ export default function ContactPage() {
     message: ''
   });
   const [phoneValue, setPhoneValue] = useState('');
+  const [footerData, setFooterData] = useState(null);  // State to store fetched footer data
+
+  // Fetch footer data from the backend
+  useEffect(() => {
+    const fetchFooterData = async () => {
+      try {
+        const response = await fetch(`${backEndURL}/api/footer`);
+        const data = await response.json();
+        if (response.ok) {
+          setFooterData(data); // Set the fetched footer data to state
+        } else {
+          Swal.fire({
+            icon: 'error',
+            title: 'Error fetching contact information',
+            text: data.message || 'An error occurred while fetching contact information.',
+          });
+        }
+      } catch (error) {
+        Swal.fire({
+          icon: 'error',
+          title: 'Oops...',
+          text: 'Error fetching the footer data. Please try again later.',
+        });
+      }
+    };
+
+    fetchFooterData();
+  }, []);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -38,7 +66,7 @@ export default function ContactPage() {
       allowOutsideClick: false,
       didOpen: () => {
         Swal.showLoading();
-      } 
+      }
     });
   
     try {
@@ -158,55 +186,55 @@ export default function ContactPage() {
         </div>
 
         {/* Contact Information */}
-        <div className="contact-info-container">
-          <h2>Contact Information</h2>
-          
-          <div className="contact-info-items">
-            <div className="contact-info-item">
-              <div className="contact-icon">
-                <Phone size={20} />
+        {footerData && (
+          <div className="contact-info-container">
+            <h2>Contact Information</h2>
+            <div className="contact-info-items">
+              <div className="contact-info-item">
+                <div className="contact-icon">
+                  <Phone size={20} />
+                </div>
+                <div className="contact-details">
+                  <p className="contact-label">Phone</p>
+                  <a href={`tel:${footerData.phone}`} className="contact-value">
+                    {footerData.phone}
+                  </a>
+                </div>
               </div>
-              <div className="contact-details">
-                <p className="contact-label">Phone</p>
-                <a href="tel:0812 577 677" className="contact-value">
-                0812 577 677
-                </a>
-              </div>
-            </div>
 
-            <div className="contact-info-item">
-              <div className="contact-icon">
-                <Mail size={20} />
+              <div className="contact-info-item">
+                <div className="contact-icon">
+                  <Mail size={20} />
+                </div>
+                <div className="contact-details">
+                  <p className="contact-label">Email</p>
+                  <a href={`mailto:${footerData.email}`} className="contact-value">
+                    {footerData.email}
+                  </a>
+                </div>
               </div>
-              <div className="contact-details">
-                <p className="contact-label">Email</p>
-                <a href="mailto:info@ilets.com" className="contact-value">
-                  info@ilets.com
-                </a>
-              </div>
-            </div>
 
-            <div className="contact-info-item" onClick={toggleMap}>
-              <div className="contact-icon">
-                <MapPin size={20} />
+              <div className="contact-info-item" onClick={toggleMap}>
+                <div className="contact-icon">
+                  <MapPin size={20} />
+                </div>
+                <div className="contact-details">
+                  <p className="contact-label">Address</p>
+                  <p className="contact-value address">
+                    {footerData.address}
+                  </p>
+                </div>
               </div>
-              <div className="contact-details">
-                <p className="contact-label">Address</p>
-                <p className="contact-value address">
-                606 Colombo Road, Nanu-oya, <br />
-                Pilimathalawa 20450
+
+              <div className="business-hours">
+                <p className="hours-label">Business Hours</p>
+                <p className="hours-value">
+                  Monday - Sunday: 8AM - 6PM<br />
                 </p>
               </div>
             </div>
-
-            <div className="business-hours">
-              <p className="hours-label">Business Hours</p>
-              <p className="hours-value">
-                Monday - Sunday: 8AM - 6PM<br />
-              </p>
-            </div>
           </div>
-        </div>
+        )}
       </div>
 
       {/* Map Section */}
@@ -220,7 +248,7 @@ export default function ContactPage() {
           loading="lazy"
           title="Google Maps"
         ></iframe>
-        </div>
+      </div>
     </div>
   );
 }

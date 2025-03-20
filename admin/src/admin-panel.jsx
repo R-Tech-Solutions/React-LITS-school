@@ -12,6 +12,9 @@ import Blog from "./pages/Blog"
 import HeroAdmin from "./pages/HeroAdmin"
 import AdminFooter from "./pages/AdminFooter"
 import AdminGallery from "./pages/AdminGallery"
+import Contact from "./pages/Contact"
+import Mail from "./pages/Mail"
+// import Login from "./auth/Login"
 
 function AdminPanel() {
   const [sidebarOpen, setSidebarOpen] = useState(true)
@@ -63,7 +66,7 @@ function AdminPanel() {
           </Link>
           <Link to="/heroadmin" className={`menu-item ${isActive("/heroadmin")}`} onClick={handleLinkClick}>
             <FaUser size={20} />
-            <span>Hero Admin</span>
+            <span>Hero</span>
           </Link>
           <Link to="/admingallery" className={`menu-item ${isActive("/admingallery")}`} onClick={handleLinkClick}>
             <FaUser size={20} />
@@ -72,6 +75,14 @@ function AdminPanel() {
           <Link to="/adminfooter" className={`menu-item ${isActive("/adminfooter")}`} onClick={handleLinkClick}>
             <FaAddressBook size={20} />
             <span>Admin Footer</span>
+          </Link>
+          <Link to="/contact" className={`menu-item ${isActive("/contact")}`} onClick={handleLinkClick}>
+            <FaAddressBook size={20} />
+            <span>Contact</span>
+          </Link>
+          <Link to="/mail" className={`menu-item ${isActive("/mail")}`} onClick={handleLinkClick}>
+            <FaAddressBook size={20} />
+            <span>Mail</span>
           </Link>
         </div>
         <div className="sidebar-footer">
@@ -82,23 +93,10 @@ function AdminPanel() {
         </div>
       </div>
       <div className="main-content">
-        <div className="header">
-          <div className="header-left">
-            <button className="mobile-toggle" onClick={toggleSidebar}>
-              <FaBars size={24} />
-            </button>
-            <h1>Education Admin Panel</h1>
-          </div>
-          <div className="header-right">
-            <div className="user-info">
-              <div className="avatar">A</div>
-              <span>Admin User</span>
-            </div>
-          </div>
-        </div>
         <div className="content">
           <Routes>
             <Route path="/" element={<Dashboard />} />
+            {/* <Route path="/login" element={<Login/>}/> */}
             <Route path="/courses" element={<Courses />} />
             <Route path="/lectures" element={<Lectures />} />
             <Route path="/vision-mission" element={<VisionMission />} />
@@ -106,6 +104,8 @@ function AdminPanel() {
             <Route path="/heroadmin" element={<HeroAdmin />} />
             <Route path="/adminfooter" element={<AdminFooter/>}/>
             <Route path="/admingallery" element={<AdminGallery/>}/>
+            <Route path="/contact" element={<Contact />}/>
+            <Route path="/mail" element={<Mail />}/>
           </Routes>
         </div>
       </div>

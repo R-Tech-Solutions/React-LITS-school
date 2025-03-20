@@ -1,5 +1,7 @@
-import React, { useState, useRef } from 'react';
+import React, { useState,useEffect, useRef } from 'react';
+import axios from 'axios';
 import '../styles/courses.css';
+import { backEndURL } from "../Backendurl";
 import { toast } from 'react-toastify';
 
 const SubcourseAdmin = () => {
@@ -16,15 +18,36 @@ const SubcourseAdmin = () => {
         lecturer: '',
     });
 
-    const [courseTitles] = useState([
-        { _id: 1, title: 'Web Development' },
-        { _id: 2, title: 'Data Science' },
-        { _id: 3, title: 'Cyber Security' }
-    ]);
-
+const [courseTitles, setCourseTitles] = useState([]);
     const [subCourses, setSubCourses] = useState([]);
     const [loading, setLoading] = useState(false);
+    const [errorMessage, setErrorMessage] = useState('');
     const formRef = useRef(null);
+
+    // Handle input changes
+    useEffect(() => {
+        const fetchCourseTitles = async () => {
+            try {
+                const response = await axios.get(`${backEndURL}/api/courses/titles`);
+                setCourseTitles(response.data);
+            } catch (error) {
+                console.error("Error fetching course titles:", error);
+            }
+        };
+
+        fetchCourseTitles();
+        fetchSubCourses();
+    }, []);
+
+    // Fetch subcourses
+    const fetchSubCourses = async () => {
+        try {
+            const response = await axios.get(`${backEndURL}/api/subcourses`);
+            setSubCourses(response.data);
+        } catch (error) {
+            console.error("Error fetching subcourses:", error);
+        }
+    };
 
     // Handle input changes
     const handleInputChange = (e) => {
@@ -33,27 +56,41 @@ const SubcourseAdmin = () => {
     };
 
     // Handle form submission
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
         setLoading(true);
-
-        setTimeout(() => {
+        try {
             if (subCourseData._id) {
-                setSubCourses(prevCourses => prevCourses.map(course => 
-                    course._id === subCourseData._id ? subCourseData : course
-                ));
+                // Update existing sub-course
+                await axios.put(`${backEndURL}/api/subcourses/update/${subCourseData._id}`, subCourseData);
                 toast.success('Sub-course updated successfully!');
             } else {
-                setSubCourses(prevCourses => [...prevCourses, { ...subCourseData, _id: Date.now() }]);
+                // Add new sub-course
+                await axios.post(`${backEndURL}/api/subcourses/add`, subCourseData);
                 toast.success('Sub-course added successfully!');
             }
 
+            fetchSubCourses();
+            setErrorMessage('');
             setSubCourseData({
-                title: '', category: '', description: '', entry: '', payment: '', 
-                structure: '', startDate: '', duration: '', time: '', lecturer: ''
+                title: '',
+                category: '',
+                description: '',
+                entry: '',
+                payment: '',
+                structure: '',
+                startDate: '',
+                duration: '',
+                time: '',
+                lecturer: '',
             });
+        } catch (error) {
+            setErrorMessage('Error submitting sub-course. Please try again.');
+            console.error('Error submitting sub-course:', error);
+            toast.error('Error submitting sub-course. Please try again.');
+        } finally {
             setLoading(false);
-        }, 1000);
+        }
     };
 
     // Handle edit click
@@ -63,9 +100,15 @@ const SubcourseAdmin = () => {
     };
 
     // Handle delete click
-    const handleDeleteClick = (id) => {
-        setSubCourses(prevCourses => prevCourses.filter(course => course._id !== id));
-        toast.success('Sub-course deleted successfully!');
+    const handleDeleteClick = async (id) => {
+        try {
+            await axios.delete(`${backEndURL}/api/subcourses/delete/${id}`);
+            toast.success('Sub-course deleted successfully!');
+            fetchSubCourses(); // Refresh the list after deletion
+        } catch (error) {
+            toast.error('Error deleting sub-course. Please try again.');
+            console.error('Error deleting sub-course:', error);
+        }
     };
 
     return (

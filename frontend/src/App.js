@@ -14,7 +14,7 @@ import Contact from "./Pages/Contact";
 import AdminVisionMission from "./Pages/Admin/AdminVisionMission"
 import AdminFooter from "./Pages/Admin/AdminFooter"
 import WhyChooseUs from "./Pages/Admin/WhyChooseUs"
-import Blog from "./Pages/Blog/Blog"
+// import Blog from "./Pages/Blog/Blog"
 import { AuthProvider, ProtectedRoute } from "./Pages/AuthContext";
 
 import NewAdmin from "./Pages/NewAdmin/admin-panel"
@@ -33,7 +33,7 @@ const App = () => {
     {/* <NewAdmin  /> */}
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="/about" element={<About />} />
+        <Route path="/about" element={<About />} /> 
         <Route path="/courses" element={<Courses />} />
         <Route path="/form" element={<Form />} />
         <Route path="/login" element={<LoginForm />} />
@@ -43,7 +43,7 @@ const App = () => {
         <Route path="/adminvision" element={<AdminVisionMission />} />
         <Route path="/adminfooter" element={<AdminFooter />} />
         <Route path="/whychooseus" element={<WhyChooseUs />} />
-        <Route path="/blog" element={<Blog/>}/>
+        {/* <Route path="/blog" element={<Blog/>}/>  */}
 
         <Route path="/newadmin" element={<NewAdmin />} />
         <Route path="/admin/blog" element={<AdminBlog />} />

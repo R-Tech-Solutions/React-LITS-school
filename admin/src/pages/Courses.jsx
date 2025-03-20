@@ -1,6 +1,8 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
+import axios from 'axios';
 import '../styles/courses.css';
 import SubcourseAdmin from './SubcourseAdmin';
+import { backEndURL } from "../Backendurl";
 
 const Courses = () => {
   const [formData, setFormData] = useState({
@@ -9,10 +11,25 @@ const Courses = () => {
     image: '',
   });
   const [selectedCourseId, setSelectedCourseId] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('');
   const [imagePreview, setImagePreview] = useState('');
   const [courses, setCourses] = useState([]);
   const formRef = useRef(null);
   const subCourseRef = useRef(null);
+
+  useEffect(() => {
+    fetchCourses();
+  }, []);
+
+  const fetchCourses = async () => {
+    try {
+      const response = await axios.get(`${backEndURL}/api/courses`);
+      setCourses(response.data);
+    } catch (error) {
+      console.error('Error fetching courses:', error);
+    }
+  };
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -31,31 +48,55 @@ const Courses = () => {
     }
   };
 
-  const handleSubmit = (e) => {
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    if (selectedCourseId !== null) {
-      setCourses((prevCourses) =>
-        prevCourses.map((course, index) =>
-          index === selectedCourseId ? { ...formData } : course
-        )
-      );
-    } else {
-      setCourses((prevCourses) => [...prevCourses, formData]);
+    setLoading(true);
+
+    try {
+      if (selectedCourseId) {
+        // Update existing course
+        await axios.put(`${backEndURL}/api/courses/update/${selectedCourseId}`, formData);
+      } else {
+        // Add new course
+        await axios.post(`${backEndURL}/api/courses/add`, formData);
+      }
+
+      fetchCourses();
+      setFormData({ title: '', description: '', image: '' });
+      setImagePreview('');
+      setSelectedCourseId(null); // Reset selected course
+    } catch (error) {
+      setErrorMessage('Error submitting course. Please try again.');
+      console.error('Error submitting course:', error);
+    } finally {
+      setLoading(false);
     }
-    setFormData({ title: '', description: '', image: '' });
-    setImagePreview('');
-    setSelectedCourseId(null);
   };
 
-  const handleUpdateClick = (index) => {
-    setFormData(courses[index]);
-    setImagePreview(courses[index].image || '');
-    setSelectedCourseId(index);
-    formRef.current.scrollIntoView({ behavior: 'smooth' });
+  const handleUpdateClick = (course) => {
+    // Prefill form with selected course data
+    setFormData({
+      title: course.title,
+      description: course.description,
+      image: course.image || '',
+    });
+    setImagePreview(course.image || '');
+    setSelectedCourseId(course._id);
+    formRef.current.scrollIntoView({ behavior: 'smooth' }); // Scroll to the form
   };
 
-  const handleDelete = (index) => {
-    setCourses((prevCourses) => prevCourses.filter((_, i) => i !== index));
+  const handleDelete = async (id) => {
+    setLoading(true);
+    try {
+      await axios.delete(`${backEndURL}/api/courses/delete/${id}`);
+      fetchCourses();
+    } catch (error) {
+      setErrorMessage('Error deleting course. Please try again.');
+      console.error('Error deleting course:', error);
+    } finally {
+      setLoading(false);
+    }
   };
 
   const scrollToSubCourse = () => {
@@ -88,22 +129,22 @@ const Courses = () => {
         />
         <input type="file" onChange={handleImageChange} />
         {imagePreview && <img src={imagePreview} alt="Preview" className="image-preview" />}
-        <button type="submit">
-          {selectedCourseId !== null ? 'Update Course' : 'Add Course'}
+        <button type="submit" disabled={loading}>
+          {loading ? 'Submitting...' : selectedCourseId ? 'Update Course' : 'Add Course'}
         </button>
       </form>
-      
+
       <h2>Courses</h2>
       <div className='course-list'>
         <ul>
-          {courses.map((course, index) => (
-            <li key={index}>
+          {courses.map((course) => (
+            <li key={course._id}>
               <h3>{course.title}</h3>
               <p>{course.description}</p>
               {course.image && <img src={course.image} alt={course.title} className="image-preview" />}
               <div className='button-container'>
-                <button className='edit-button' onClick={() => handleUpdateClick(index)}>Edit</button>
-                <button className='delete-button' onClick={() => handleDelete(index)}>Delete</button>
+                <button className='edit-button' onClick={() => handleUpdateClick(course)}>Edit</button>
+                <button className='delete-button' onClick={() => handleDelete(course._id)}>Delete</button>
               </div>
             </li>
           ))}

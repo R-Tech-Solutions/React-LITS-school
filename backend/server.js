@@ -26,13 +26,24 @@ const mailRoutes = require('./routes/mailRoutes');
 const courseRoutes = require('./routes/courseRoutes');
 const subCourseRoutes = require("./routes/subCourseRoutes");
 const contactRoutes = require('./routes/contactRoutes');
-
+const visionMissionRoutes = require("./routes/visionMissionRoutes");
+const heroTextRoutes = require("./routes/heroTextRoutes");
+const heroImageRoutes = require("./routes/heroImageRoutes");
+const footerRoutes = require("./routes/footerRoutes");
+const blogRoutes = require('./routes/blogRoutes');
+const galleryRoutes = require("./routes/galleryRoutes");
 
 app.use('/api/mail', mailRoutes);
 app.use('/api/lecturers', lecturerRoutes);
 app.use('/api/courses', courseRoutes);
 app.use("/api/subcourses", subCourseRoutes);
 app.use('/api', contactRoutes);
+app.use("/api/vision-mission", visionMissionRoutes);
+app.use("/api/hero-text", heroTextRoutes);
+app.use("/api/hero-image", heroImageRoutes);
+app.use("/api/footer", footerRoutes);
+app.use('/api/blog', blogRoutes);
+app.use("/api/gallery", galleryRoutes);
 
 app.get('/', (req, res) => {
     res.send('Backend is running!');

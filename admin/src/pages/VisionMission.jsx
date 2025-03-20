@@ -1,5 +1,7 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "../styles/vision-mission.css";
+import axios from "axios";
+import { backEndURL } from "../Backendurl";
 
 const AdminVisionMission = () => {
     const [formData, setFormData] = useState({
@@ -10,23 +12,49 @@ const AdminVisionMission = () => {
     });
     const [data, setData] = useState([]);
     const [editingIndex, setEditingIndex] = useState(null);
+    const [error, setError] = useState("");
+
+    useEffect(() => {
+        fetchData();
+    }, []);
+
+    const fetchData = async () => {
+        try {
+            const response = await axios.get(`${backEndURL}/api/vision-mission`);
+            setData(response.data);
+        } catch (error) {
+            console.error("Error fetching data", error);
+        }
+    };
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;
         setFormData({ ...formData, [name]: value });
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        if (editingIndex !== null) {
-            const updatedData = [...data];
-            updatedData[editingIndex] = formData;
-            setData(updatedData);
-            setEditingIndex(null);
-        } else {
-            setData([...data, formData]);
+        setError("");
+        try {
+            if (editingIndex !== null) {
+                const id = data[editingIndex]._id;
+                await axios.put(`${backEndURL}/api/vision-mission/${id}`, formData);
+                const updatedData = [...data];
+                updatedData[editingIndex] = formData;
+                setData(updatedData);
+                setEditingIndex(null);
+            } else {
+                if (data.length >= 1) {
+                    setError("Only one record is allowed. Please delete the existing record before adding a new one.");
+                    return;
+                }
+                const response = await axios.post(`${backEndURL}/api/vision-mission`, formData);
+                setData([...data, response.data.data]);
+            }
+            setFormData({ visionTitle: "", visionText: "", missionTitle: "", missionText: "" });
+        } catch (error) {
+            console.error("Error saving data", error);
         }
-        setFormData({ visionTitle: "", visionText: "", missionTitle: "", missionText: "" });
     };
 
     const handleEdit = (index) => {
@@ -34,16 +62,21 @@ const AdminVisionMission = () => {
         setEditingIndex(index);
     };
 
-    const handleDelete = (index) => {
-        const updatedData = data.filter((_, i) => i !== index);
-        setData(updatedData);
+    const handleDelete = async (index) => {
+        try {
+            const id = data[index]._id;
+            await axios.delete(`${backEndURL}/api/vision-mission/${id}`);
+            const updatedData = data.filter((_, i) => i !== index);
+            setData(updatedData);
+        } catch (error) {
+            console.error("Error deleting data", error);
+        }
     };
 
     return (
         <div className="admin-container">
-            
             <form onSubmit={handleSubmit} className="form-box">
-            <h2 className="section-title">VISION</h2>
+                <h2 className="section-title">VISION</h2>
                 <input
                     type="text"
                     name="visionTitle"
@@ -51,7 +84,6 @@ const AdminVisionMission = () => {
                     onChange={handleInputChange}
                     placeholder="Title"
                     className="input-field"
-                    required
                 />
                 <textarea
                     name="visionText"
@@ -69,7 +101,6 @@ const AdminVisionMission = () => {
                     onChange={handleInputChange}
                     placeholder="Title"
                     className="input-field"
-                    required
                 />
                 <textarea
                     name="missionText"
@@ -79,12 +110,12 @@ const AdminVisionMission = () => {
                     className="textarea-field"
                     required
                 ></textarea>
+                {error && <p className="error-message">{error}</p>}
                 <button type="submit" className="save-btn">
                     {editingIndex !== null ? "Update" : "Save"}
                 </button>
-
-                <button type="submit" className="back-btn">
-                <a href="/admin" className="back-btn">Back</a>
+                <button type="button" className="back-btn">
+                    <a href="/admin" className="back-btn">Back</a>
                 </button>
             </form>
 

@@ -1,197 +1,25 @@
-import React, { useState } from "react"
-import { X, Maximize2, Info } from "lucide-react"
+import React, { useState, useEffect } from "react"
+import { X, } from "lucide-react"
 import "./Gallary.css"
-import NewImage from "../../Assets/images/Chinese.jpg"
-// Gallery data with categories and items
-const galleryData = {
-  nature: {
-    title: "Nature",
-    description:
-      "Beautiful landscapes and natural wonders from around the world. Explore mountains, forests, oceans, and more in this stunning collection of natural beauty.",
-    thumbnail: "/Chinese.jpg",
-    items: [
-      {
-        id: 1,
-        type: "image",
-        src: "/Chinese.jpg",
-        caption: "Mountain landscape",
-        details: "Majestic mountain peaks rising above the clouds, captured at sunrise.",
-      },
-      {
-        id: 2,
-        type: "image",
-        src: "/Russian.jpg",
-        caption: "Forest view",
-        details: "Dense forest with sunlight filtering through the canopy, creating a magical atmosphere.",
-      },
-      {
-        id: 3,
-        type: "image",
-        src: NewImage,
-        caption: "Ocean sunset",
-        details: "Breathtaking sunset over calm ocean waters, with vibrant orange and purple hues.",
-      },
-      {
-        id: 4,
-        type: "image",
-        src: "/placeholder.svg?height=600&width=800",
-        caption: "Desert dunes",
-        details: "Rolling sand dunes stretching to the horizon, shaped by wind and time.",
-      },
-    ],
-  },
-  architecture: {
-    title: "Architecture",
-    description:
-      "Impressive buildings and structures from around the world, showcasing human ingenuity and artistic vision in construction and design.",
-    thumbnail: "/placeholder.svg?height=300&width=400",
-    items: [
-      {
-        id: 1,
-        type: "image",
-        src: NewImage,
-        caption: "Modern skyscraper",
-        details: "Cutting-edge skyscraper with innovative design elements, towering above the city skyline.",
-      },
-      {
-        id: 2,
-        type: "image",
-        src: "/placeholder.svg?height=600&width=800",
-        caption: "Historic castle",
-        details: "Medieval castle with centuries of history, featuring impressive stonework and defensive structures.",
-      },
-      {
-        id: 3,
-        type: "image",
-        src: "/placeholder.svg?height=600&width=800",
-        caption: "Bridge design",
-        details: "Engineering marvel spanning across a river, combining functionality with aesthetic beauty.",
-      },
-      {
-        id: 4,
-        type: "image",
-        src: "/placeholder.svg?height=600&width=800",
-        caption: "Ancient temple",
-        details:
-          "Sacred structure built thousands of years ago, showcasing remarkable preservation and cultural significance.",
-      },
-    ],
-  },
-  animals: {
-    title: "Animals",
-    description:
-      "Wildlife and animal photography capturing the diversity and beauty of the animal kingdom in their natural habitats.",
-    thumbnail: "/placeholder.svg?height=300&width=400",
-    items: [
-      {
-        id: 1,
-        type: "image",
-        src: "/placeholder.svg?height=600&width=800",
-        caption: "Lion in savanna",
-        details: "Powerful lion resting in the golden grass of the African savanna at dusk.",
-      },
-      {
-        id: 2,
-        type: "image",
-        src: "/placeholder.svg?height=600&width=800",
-        caption: "Polar bear",
-        details:
-          "Majestic polar bear navigating ice floes in the Arctic, showcasing adaptation to extreme environments.",
-      },
-      {
-        id: 3,
-        type: "image",
-        src: "/placeholder.svg?height=600&width=800",
-        caption: "Tropical birds",
-        details: "Colorful tropical birds displaying vibrant plumage in the rainforest canopy.",
-      },
-      {
-        id: 4,
-        type: "image",
-        src: "/placeholder.svg?height=600&width=800",
-        caption: "Underwater reef",
-        details:
-          "Diverse marine life thriving among coral reefs, creating an underwater paradise of color and movement.",
-      },
-    ],
-  },
-  food: {
-    title: "Food",
-    description:
-      "Delicious cuisine from around the world, showcasing culinary artistry, cultural traditions, and mouthwatering presentations.",
-    thumbnail: "/placeholder.svg?height=300&width=400",
-    items: [
-      {
-        id: 1,
-        type: "image",
-        src: "/placeholder.svg?height=600&width=800",
-        caption: "Gourmet dish",
-        details: "Expertly crafted fine dining creation with meticulous plating and premium ingredients.",
-      },
-      {
-        id: 2,
-        type: "image",
-        src: "/placeholder.svg?height=600&width=800",
-        caption: "Dessert platter",
-        details: "Assortment of decadent desserts featuring chocolate, fruit, and artistic sugar work.",
-      },
-      {
-        id: 3,
-        type: "image",
-        src: "/placeholder.svg?height=600&width=800",
-        caption: "Fresh ingredients",
-        details: "Vibrant, farm-fresh produce arranged to showcase natural colors and textures.",
-      },
-      {
-        id: 4,
-        type: "image",
-        src: "/placeholder.svg?height=600&width=800",
-        caption: "Street food",
-        details: "Authentic street food capturing the essence of local culinary traditions and bold flavors.",
-      },
-    ],
-  },
-  travel: {
-    title: "Travel",
-    description:
-      "Destinations and travel experiences from across the globe, inspiring wanderlust and showcasing cultural diversity and natural wonders.",
-    thumbnail: "/placeholder.svg?height=300&width=400",
-    items: [
-      {
-        id: 1,
-        type: "image",
-        src: "/placeholder.svg?height=600&width=800",
-        caption: "City skyline",
-        details:
-          "Dramatic urban skyline illuminated at night, showcasing architectural achievements and city planning.",
-      },
-      {
-        id: 2,
-        type: "image",
-        src: "/placeholder.svg?height=600&width=800",
-        caption: "Beach resort",
-        details: "Idyllic tropical beach resort with crystal clear waters and pristine white sand beaches.",
-      },
-      {
-        id: 3,
-        type: "image",
-        src: "/placeholder.svg?height=600&width=800",
-        caption: "Mountain hiking",
-        details: "Adventurous hiking trail winding through rugged mountain terrain with breathtaking vistas.",
-      },
-      {
-        id: 4,
-        type: "image",
-        src: "/placeholder.svg?height=600&width=800",
-        caption: "Cultural festival",
-        details: "Vibrant local festival celebrating cultural heritage with traditional costumes, music, and dance.",
-      },
-    ],
-  },
+
+// Fetch gallery data from the backend
+const fetchGalleryData = async () => {
+  const response = await fetch("http://localhost:3001/api/gallery")
+  const data = await response.json()
+  return data
 }
 
-// JavaScript-only React implementation (no JSX)
+const preloadVideos = (items) => {
+  items.forEach((item) => {
+    if (item.includes("data:video")) {
+      const video = document.createElement("video")
+      video.src = item
+    }
+  })
+}
+
 export default function Gallery() {
+  const [galleryData, setGalleryData] = useState({})
   const [selectedCategory, setSelectedCategory] = useState(null)
   const [isPopupOpen, setIsPopupOpen] = useState(false)
   const [popupAnimation, setPopupAnimation] = useState("")
@@ -200,6 +28,42 @@ export default function Gallery() {
   const [detailAnimation, setDetailAnimation] = useState("")
   const [loadedItems, setLoadedItems] = useState([])
 
+  useEffect(() => {
+    const loadGalleryData = async () => {
+      const data = await fetchGalleryData()
+      setGalleryData(data)
+
+      // Preload videos to reduce lag
+      Object.keys(data).forEach((category) => {
+        const items = [...data[category].subImages, ...data[category].subVideos]
+        preloadVideos(items)
+      })
+    }
+    loadGalleryData()
+
+    // Add ResizeObserver to handle resize events
+    const resizeObserver = new ResizeObserver(() => {
+      try {
+        // Your resize handling logic here
+      } catch (error) {
+        console.error("ResizeObserver error:", error)
+      }
+    })
+
+    // Observe the gallery container
+    const galleryContainer = document.querySelector(".gallery-container")
+    if (galleryContainer) {
+      resizeObserver.observe(galleryContainer)
+    }
+
+    // Cleanup observer on component unmount
+    return () => {
+      if (galleryContainer) {
+        resizeObserver.unobserve(galleryContainer)
+      }
+    }
+  }, [])
+
   // Handle opening the main popup with animation
   const openPopup = (category) => {
     setSelectedCategory(category)
@@ -207,13 +71,13 @@ export default function Gallery() {
     setIsPopupOpen(true)
 
     // Stagger the loading of items for animation
-    const items = galleryData[category].items
+    const items = [...galleryData[category].subImages, ...galleryData[category].subVideos]
     setLoadedItems([])
 
     items.forEach((item, index) => {
       setTimeout(
         () => {
-          setLoadedItems((prev) => [...prev, item.id])
+          setLoadedItems((prev) => [...prev, index])
         },
         100 * (index + 1),
       )
@@ -231,12 +95,23 @@ export default function Gallery() {
     }, 300) // Match this with the CSS animation duration
   }
 
-  // Handle opening the detail popup with animation
   const openDetailPopup = (item, event) => {
-    event.stopPropagation()
-    setDetailPopup(item)
-    setDetailAnimation("detail-enter")
-  }
+    event.stopPropagation();
+    setDetailPopup(item);
+    setDetailAnimation("detail-enter");
+  
+    if (item.includes("data:video")) {
+      setTimeout(() => {
+        const videoElement = document.querySelector(".detail-popup video");
+        if (videoElement) {
+          videoElement.src = item;
+          videoElement.load(); // Ensure it loads before playing
+          videoElement.oncanplay = () => videoElement.play();
+        }
+      }, 100); // Add a short delay
+    }
+  };
+  
 
   // Handle closing the detail popup with animation
   const closeDetailPopup = (event) => {
@@ -248,11 +123,27 @@ export default function Gallery() {
   }
 
   const showPreview = (item) => {
-    setPreviewItem(item)
-  }
+    setPreviewItem(item);
+    if (item.includes("data:video")) {
+      setTimeout(() => {
+        const videoElement = document.querySelector(".popup-preview video");
+        if (videoElement) {
+          videoElement.src = item;
+          videoElement.load();
+          videoElement.oncanplay = () => videoElement.play();
+        }
+      }, 5);
+    }
+  };
+  
 
   const hidePreview = () => {
     setPreviewItem(null)
+    const videoElement = document.querySelector(".popup-preview video")
+    if (videoElement) {
+      videoElement.pause()
+      videoElement.currentTime = 0
+    }
   }
 
   // Create gallery items using React.createElement
@@ -270,7 +161,7 @@ export default function Gallery() {
         React.createElement(
           "div",
           {
-            key: "image-container",
+            key: `image-container-${category}`, // Add unique key
             className: "category-image-container",
           },
           React.createElement("img", {
@@ -282,7 +173,7 @@ export default function Gallery() {
         React.createElement(
           "div",
           {
-            key: "overlay",
+            key: `overlay-${category}`, // Add unique key
             className: "category-overlay",
           },
           React.createElement(
@@ -329,38 +220,19 @@ export default function Gallery() {
               key: "detail-image-container",
               className: "detail-image-container",
             },
-            React.createElement("img", {
-              src: detailPopup.src,
-              alt: detailPopup.caption,
-              className: "detail-image",
-            }),
-          ),
-
-          React.createElement(
-            "div",
-            {
-              key: "detail-info",
-              className: "detail-info",
-            },
-            [
-              React.createElement(
-                "h3",
-                {
-                  key: "detail-title",
-                  className: "detail-title",
-                },
-                detailPopup.caption,
-              ),
-
-              React.createElement(
-                "p",
-                {
-                  key: "detail-description",
-                  className: "detail-description",
-                },
-                detailPopup.details,
-              ),
-            ],
+            detailPopup.includes("data:image")
+              ? React.createElement("img", {
+                src: detailPopup,
+                alt: "Detail",
+                className: "detail-image",
+              })
+              : React.createElement("video", {
+                src: detailPopup,
+                alt: "Detail",
+                className: "detail-video",
+                controls: true,
+                autoPlay: true,
+              }),
           ),
         ],
       ),
@@ -386,14 +258,14 @@ export default function Gallery() {
           React.createElement(
             "div",
             {
-              key: "banner",
+              key: `banner-${selectedCategory}`, // Add unique key
               className: "popup-banner",
             },
             [
               React.createElement(
                 "h2",
                 {
-                  key: "title",
+                  key: `title-${selectedCategory}`, // Add unique key
                   className: "popup-title",
                 },
                 galleryData[selectedCategory].title,
@@ -401,7 +273,7 @@ export default function Gallery() {
               React.createElement(
                 "button",
                 {
-                  key: "close",
+                  key: `close-${selectedCategory}`, // Add unique key
                   className: "close-button",
                   onClick: closePopup,
                   "aria-label": "Close",
@@ -426,12 +298,12 @@ export default function Gallery() {
                   key: "items",
                   className: "popup-gallery",
                 },
-                galleryData[selectedCategory].items.map((item) =>
+                [...galleryData[selectedCategory].subImages, ...galleryData[selectedCategory].subVideos].map((item, index) =>
                   React.createElement(
                     "div",
                     {
-                      key: item.id,
-                      className: `gallery-item ${loadedItems.includes(item.id) ? "item-loaded" : ""}`,
+                      key: `gallery-item-${index}`, // Add unique key
+                      className: `gallery-item ${loadedItems.includes(index) ? "item-loaded" : ""}`,
                       onMouseEnter: () => showPreview(item),
                       onMouseLeave: hidePreview,
                     },
@@ -439,42 +311,21 @@ export default function Gallery() {
                       React.createElement(
                         "div",
                         {
-                          key: "img-container",
+                          key: `img-container-${index}`, // Add unique key
                           className: "gallery-item-container",
                         },
-                        React.createElement("img", {
-                          src: item.src,
-                          alt: item.caption,
-                          className: "gallery-item-image",
-                        }),
+                        item.includes("data:image")
+                          ? React.createElement("img", {
+                            src: item,
+                            className: "gallery-item-image",
+                          })
+                          : React.createElement("video", {
+                            src: item,
+                            className: "gallery-item-video",
+                            controls: true,
+                          }),
                       ),
-                      React.createElement(
-                        "div",
-                        {
-                          key: "item-overlay",
-                          className: "gallery-item-overlay",
-                        },
-                        [
-                          React.createElement(
-                            "span",
-                            {
-                              key: "item-caption",
-                              className: "gallery-item-caption",
-                            },
-                            item.caption,
-                          ),
-                          React.createElement(
-                            "button",
-                            {
-                              key: "detail-button",
-                              className: "detail-button",
-                              onClick: (e) => openDetailPopup(item, e),
-                              "aria-label": "View details",
-                            },
-                            React.createElement(Info, { size: 20 }),
-                          ),
-                        ],
-                      ),
+
                     ],
                   ),
                 ),
@@ -506,46 +357,28 @@ export default function Gallery() {
                     },
                     previewItem
                       ? [
-                        React.createElement("img", {
-                          key: "preview-img",
-                          src: previewItem.src,
-                          alt: previewItem.caption,
-                          className: "preview-image",
-                        }),
-                        React.createElement(
-                          "div",
-                          {
-                            key: "preview-info",
-                            className: "preview-info",
-                          },
-                          [
-                            React.createElement(
-                              "p",
-                              {
-                                key: "preview-caption",
-                                className: "preview-caption",
-                              },
-                              previewItem.caption,
-                            ),
-                            React.createElement(
-                              "button",
-                              {
-                                key: "expand-button",
-                                className: "expand-button",
-                                onClick: (e) => openDetailPopup(previewItem, e),
-                                "aria-label": "Expand view",
-                              },
-                              React.createElement(Maximize2, { size: 16 }),
-                            ),
-                          ],
-                        ),
+                        previewItem.includes("data:image")
+                          ? React.createElement("img", {
+                            key: "preview-img", // Add unique key
+                            src: previewItem,
+                            alt: "Preview",
+                            className: "preview-image",
+                          })
+                          : React.createElement("video", {
+                            key: "preview-video", // Add unique key
+                            src: previewItem,
+                            className: "preview-video fit-to-card", // Add class to fit the video to the card
+                            controls: true,
+                            autoPlay: true,
+                          }),
                       ]
                       : React.createElement(
                         "p",
                         {
+                          key: "preview-placeholder", // Add unique key
                           className: "preview-placeholder",
                         },
-                        "Hover over an image to preview",
+                        "Hover over an image or video to preview",
                       ),
                   ),
                 ],

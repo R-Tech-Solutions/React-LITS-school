@@ -1,6 +1,7 @@
 const express = require('express');
 const nodemailer = require('nodemailer');
 require('dotenv').config();
+const Submission = require('../models/submissionModel'); // Import the Submission model
 
 const router = express.Router();
 
@@ -27,7 +28,28 @@ const submitFormController = async (req, res) => {
       guardianRelation,
       classValue,
       sectionValue,
+      gender,
+      dob,
     } = req.body;
+
+    // Save the submission data to the database
+    const newSubmission = new Submission({
+      firstName,
+      lastName,
+      email,
+      mobile,
+      address,
+      guardianName,
+      guardianMobile,
+      guardianRelation,
+      classValue,
+      sectionValue,
+      gender,
+      dob,
+    });
+
+    // Save the new submission
+    await newSubmission.save();
 
     // Construct email content
     const message = `
@@ -38,6 +60,8 @@ const submitFormController = async (req, res) => {
       Address: ${address}
       Class: ${classValue}
       Section: ${sectionValue}
+      Gender: ${gender}
+      Date of Birth: ${dob}
       Guardian Name: ${guardianName}
       Guardian Relation: ${guardianRelation}
       Guardian Mobile: ${guardianMobile}
@@ -59,10 +83,33 @@ const submitFormController = async (req, res) => {
       text: 'Thank you for contacting us! Your admission form has been received successfully.',
     });
 
-    res.status(200).json({ success: true, message: 'Form submitted and emails sent successfully' });
+    res.status(200).json({ success: true, message: 'Form submitted, data saved, and emails sent successfully' });
   } catch (error) {
-    console.error('Error sending email:', error);
+    console.error('Error submitting form:', error);
     res.status(500).json({ success: false, message: 'Error submitting form' });
+  }
+};
+
+// Controller function to get all submissions
+const getSubmissionsController = async (req, res) => {
+  try {
+    const submissions = await Submission.find();
+    res.status(200).json({ success: true, contactSubmissions: submissions });
+  } catch (error) {
+    console.error('Error fetching submissions:', error);
+    res.status(500).json({ success: false, message: 'Error fetching submissions' });
+  }
+};
+
+// Controller function to delete a submission
+const deleteSubmissionController = async (req, res) => {
+  try {
+    const { id } = req.params;
+    await Submission.findByIdAndDelete(id);
+    res.status(200).json({ success: true, message: 'Submission deleted successfully' });
+  } catch (error) {
+    console.error('Error deleting submission:', error);
+    res.status(500).json({ success: false, message: 'Error deleting submission' });
   }
 };
 
@@ -72,4 +119,6 @@ router.post('/submit-form', submitFormController);
 // Export the controller function
 module.exports = {
   submitFormController,
+  getSubmissionsController,
+  deleteSubmissionController,
 };

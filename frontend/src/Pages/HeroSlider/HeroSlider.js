@@ -1,29 +1,46 @@
 import { useState, useEffect, useRef } from "react"
+import axios from "axios"
 import "./HeroSlider.css"
-import New01 from "../../Assets/images/back.jpg"
-import New02 from "../../Assets/images/back01.jpg"
-import New03 from "../../Assets/images/back02.jpg"
-import New04 from "../../Assets/images/back.jpg"
 
 export default function HeroSlider() {
   const [currentSlide, setCurrentSlide] = useState(0)
   const [isAutoPlaying, setIsAutoPlaying] = useState(true)
   const autoPlayRef = useRef(null)
+  const [heroText, setHeroText] = useState({ textTitle: "", textDetails: "" })
+  const [sliderImages, setSliderImages] = useState([]) // State to hold the images
 
-  const sliderImages = [
-    {
-      url: New01,
-    },
-    {
-      url: New02,
-    },
-    {
-      url: New03,
-    },
-    {
-      url: New04,
-    },
-  ]
+  // Fetch hero text and images from the backend API
+  useEffect(() => {
+    // Fetch hero text
+    axios
+      .get("http://localhost:3001/api/hero-text")
+      .then((response) => {
+        if (response.data && response.data.length > 0) {
+          setHeroText(response.data[0])
+        }
+      })
+      .catch((error) => {
+        console.error("Error fetching hero text:", error)
+      })
+
+    // Fetch hero images
+    axios
+      .get("http://localhost:3001/api/hero-image")
+      .then((response) => {
+        const images = response.data;
+        setSliderImages(images); // Set the slider images
+        setCurrentSlide(0); // Reset current slide to the first image
+
+        // Preload images
+        images.forEach(image => {
+          const img = new Image();
+          img.src = image.imageData;
+        });
+      })
+      .catch((error) => {
+        console.error("Error fetching hero images:", error)
+      })
+  }, [])
 
   // Handle slider navigation
   const nextSlide = () => {
@@ -43,7 +60,7 @@ export default function HeroSlider() {
     if (isAutoPlaying) {
       autoPlayRef.current = setInterval(() => {
         nextSlide()
-      }, 1000)
+      }, 2000)
     }
 
     return () => {
@@ -51,7 +68,7 @@ export default function HeroSlider() {
         clearInterval(autoPlayRef.current)
       }
     }
-  }, [isAutoPlaying, currentSlide])
+  }, [isAutoPlaying, sliderImages.length]) // Added sliderImages.length to dependencies
 
   // Pause auto play on hover
   const handleMouseEnter = () => {
@@ -64,15 +81,30 @@ export default function HeroSlider() {
 
   return (
     <section className="hero-section">
-      <div className="hero-background" style={{ backgroundImage: `url(${sliderImages[currentSlide].url})`}}></div>
+      <div
+        className="hero-background"
+        style={{ backgroundImage: `url(${sliderImages[currentSlide]?.imageData || "/placeholder.svg"})` }} // Use fetched image
+      ></div>
       <div className="hero-container">
         <div className="hero-content">
           {/* Left side - Slider */}
-          <div className="slider-container" onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
+          <div
+            className="slider-container"
+            onMouseEnter={handleMouseEnter}
+            onMouseLeave={handleMouseLeave}
+          >
             <div className="slider">
               {sliderImages.map((image, index) => (
-                <div key={index} className={`slide ${index === currentSlide ? "active" : ""}`}>
-                  <img src={image.url || "/placeholder.svg"} alt={image.title} className="slide-image" />
+                <div
+                  key={index}
+                  className={`slide ${index === currentSlide ? "active" : ""}`}
+                >
+                  <img
+                    src={image.imageData || "/placeholder.svg"} // Use the fetched image
+                    alt={`Slide ${index + 1}`}
+                    className="slide-image"
+                    loading="lazy" // Lazy loading for images
+                  />
                 </div>
               ))}
               {/* Dots indicator */}
@@ -90,14 +122,10 @@ export default function HeroSlider() {
 
           {/* Right side - Text content */}
           <div className="hero-text">
-            <h1 className="hero-title">Empowering Minds, Shaping Futures</h1>
+            <h1 className="hero-title">{heroText.textTitle || "Empowering Minds, Shaping Futures"}</h1>
             <p className="hero-description">
-              Welcome to our educational institution where excellence meets innovation. We provide a comprehensive
-              learning environment that nurtures critical thinking, creativity, and personal growth.
-            </p>
-            <p className="hero-description">
-              Our dedicated faculty and state-of-the-art facilities ensure that students receive the highest quality
-              education, preparing them for success in an ever-changing global landscape.
+              {heroText.textDetails ||
+                "Welcome to our educational institution where excellence meets innovation. We provide a comprehensive learning environment that nurtures critical thinking, creativity, and personal growth."}
             </p>
           </div>
         </div>
@@ -105,4 +133,3 @@ export default function HeroSlider() {
     </section>
   )
 }
-

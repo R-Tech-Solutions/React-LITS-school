@@ -1,4 +1,5 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
+import axios from 'axios';  // Import Axios to make API requests
 import '../styles/blog.css';
 
 const Blog = () => {
@@ -11,6 +12,17 @@ const Blog = () => {
   const [imagePreview, setImagePreview] = useState('');
   const [blogs, setBlogs] = useState([]);
   const formRef = useRef(null);
+
+  useEffect(() => {
+    // Fetch blogs when the component mounts
+    axios.get('http://localhost:3001/api/blogs')
+      .then((response) => {
+        setBlogs(response.data);
+      })
+      .catch((error) => {
+        console.error('Error fetching blogs:', error);
+      });
+  }, []);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -32,28 +44,45 @@ const Blog = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     if (selectedBlogsId !== null) {
-      setBlogs((prevBlogs) =>
-        prevBlogs.map((blogs, index) =>
-          index === selectedBlogsId ? { ...formData } : blogs
-        )
-      );
+      // Update an existing blog
+      axios.put(`http://localhost:3001/api/blogs/${selectedBlogsId}`, formData)
+        .then((response) => {
+          setBlogs((prevBlogs) =>
+            prevBlogs.map((blog) =>
+              blog._id === selectedBlogsId ? response.data : blog
+            )
+          );
+        })
+        .catch((error) => console.error('Error updating blog:', error));
     } else {
-      setBlogs((prevBlogs) => [...prevBlogs, formData]);
+      // Add a new blog
+      axios.post('http://localhost:3001/api/blogs', formData)
+        .then((response) => {
+          setBlogs((prevBlogs) => [...prevBlogs, response.data]);
+        })
+        .catch((error) => console.error('Error adding blog:', error));
     }
+
+    // Reset form
     setFormData({ title: '', description: '', image: '' });
     setImagePreview('');
     setSelectedBlogsId(null);
   };
 
-  const handleUpdateClick = (index) => {
-    setFormData(blogs[index]);
-    setImagePreview(blogs[index].image || '');
-    setSelectedBlogsId(index);
+  const handleUpdateClick = (id) => {
+    const blog = blogs.find((blog) => blog._id === id);
+    setFormData(blog);
+    setImagePreview(blog.image || '');
+    setSelectedBlogsId(id);
     formRef.current.scrollIntoView({ behavior: 'smooth' });
   };
 
-  const handleDelete = (index) => {
-    setBlogs((prevBlogs) => prevBlogs.filter((_, i) => i !== index));
+  const handleDelete = (id) => {
+    axios.delete(`http://localhost:3001/api/blogs/${id}`)
+      .then(() => {
+        setBlogs((prevBlogs) => prevBlogs.filter((blog) => blog._id !== id));
+      })
+      .catch((error) => console.error('Error deleting blog:', error));
   };
 
   return (
@@ -87,14 +116,14 @@ const Blog = () => {
       <h2>Blogs</h2>
       <div className='blog-list'>
         <ul>
-          {blogs.map((blogs, index) => (
-            <li key={index}>
-              <h3>{blogs.title}</h3>
-              <p>{blogs.description}</p>
-              {blogs.image && <img src={blogs.image} alt={blogs.title} className="image-preview" />}
+          {blogs.map((blog) => (
+            <li key={blog._id}>
+              <h3>{blog.title}</h3>
+              <p>{blog.description}</p>
+              {blog.image && <img src={blog.image} alt={blog.title} className="image-preview" />}
               <div className='button-container'>
-                <button className='edit-button' onClick={() => handleUpdateClick(index)}>Edit</button>
-                <button className='delete-button' onClick={() => handleDelete(index)}>Delete</button>
+                <button className='edit-button' onClick={() => handleUpdateClick(blog._id)}>Edit</button>
+                <button className='delete-button' onClick={() => handleDelete(blog._id)}>Delete</button>
               </div>
             </li>
           ))}

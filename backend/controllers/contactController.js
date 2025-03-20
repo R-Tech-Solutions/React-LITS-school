@@ -1,6 +1,5 @@
-// controllers/contactController.js
-
 const nodemailer = require('nodemailer');
+const Contact = require('../models/Contact');
 
 const sendEmail = async (req, res) => {
   const { name, email, phone, message } = req.body;
@@ -28,9 +27,19 @@ const sendEmail = async (req, res) => {
     `,
   };
 
-  // Send the email to the admin
   try {
+    // Send the email to the admin
     await transporter.sendMail(mailOptions);
+
+    // Save the contact form submission to the database
+    const newContact = new Contact({
+      name,
+      email,
+      phone,
+      message
+    });
+
+    await newContact.save();
 
     // Send a confirmation email back to the user
     const userConfirmationMail = {
@@ -39,9 +48,9 @@ const sendEmail = async (req, res) => {
       subject: 'Thank you for contacting us',
       text: `
         Dear ${name},
-        
+
         Thank you for reaching out to us. We have received your message and will get back to you as soon as possible.
-        
+
         Best regards,
         The Team
       `,
@@ -56,5 +65,32 @@ const sendEmail = async (req, res) => {
     res.status(500).json({ error: 'Error sending email. Please try again later.' });
   }
 };
+const getContactSubmissions = async (req, res) => {
+  try {
+    // Fetch all contact submissions from the database
+    const contactSubmissions = await Contact.find();
 
-module.exports = { sendEmail };
+    // Respond with the contact submissions
+    res.status(200).json({ contactSubmissions });
+  } catch (error) {
+    console.error('Error fetching contact submissions:', error);
+    res.status(500).json({ error: 'Error fetching contact submissions. Please try again later.' });
+  }
+};
+
+const deleteContactSubmission = async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    // Find and delete the contact submission by ID
+    await Contact.findByIdAndDelete(id);
+
+    // Respond with success
+    res.status(200).json({ message: 'Contact submission deleted successfully!' });
+  } catch (error) {
+    console.error('Error deleting contact submission:', error);
+    res.status(500).json({ error: 'Error deleting contact submission. Please try again later.' });
+  }
+};
+
+module.exports = { sendEmail, getContactSubmissions, deleteContactSubmission };

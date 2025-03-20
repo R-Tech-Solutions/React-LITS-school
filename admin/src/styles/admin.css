@@ -37,8 +37,6 @@ body {
 
 /* Sidebar Styles */
 .sidebar {
-  
-  margin-left: 30px;
   width: var(--sidebar-width);
   background-color: var(--white);
   border-right: 1px solid var(--border-color);
@@ -51,6 +49,7 @@ body {
 }
 
 .sidebar.closed {
+  margin-left: 40px;
   width: var(--sidebar-collapsed-width);
 }
 

@@ -551,3 +551,9 @@
     opacity: 1;
   }
 
+  .fit-to-card {
+    object-fit: cover;
+    width: 100%;
+    height: 100%;
+  }
+

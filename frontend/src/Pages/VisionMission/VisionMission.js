@@ -1,11 +1,33 @@
-"use client"
-
-import { useEffect, useRef } from "react"
+import { useEffect, useRef, useState } from "react"
 import "./VisionMission.css"
 
 export default function VisionMission() {
   const visionRef = useRef(null)
   const missionRef = useRef(null)
+
+  const [visionMission, setVisionMission] = useState({
+    visionTitle: "",
+    visionText: "",
+    missionTitle: "",
+    missionText: "",
+  })
+
+  useEffect(() => {
+    // Fetch Vision & Mission data
+    const fetchData = async () => {
+      try {
+        const response = await fetch("http://localhost:3001/api/vision-mission")
+        const data = await response.json()
+        if (data.length > 0) {
+          setVisionMission(data[0]) // Assuming there's only one record
+        }
+      } catch (error) {
+        console.error("Error fetching data:", error)
+      }
+    }
+
+    fetchData()
+  }, [])
 
   useEffect(() => {
     const observerOptions = {
@@ -54,14 +76,14 @@ export default function VisionMission() {
                 <line x1="12" y1="16" x2="12.01" y2="16"></line>
               </svg>
             </div>
-            <h2 className="card-title">Our Vision</h2>
+            <h2 className="card-title">{visionMission.visionTitle || "Our Vision"}</h2>
             <p className="card-text">
-              To be a globally recognized center of educational excellence, fostering innovative thinking and creating
-              leaders who positively impact society.
-            </p>
-            <p className="card-text">
-              We envision a future where our graduates are at the forefront of solving complex global challenges through
-              critical thinking, collaboration, and ethical leadership.
+              {visionMission.visionText
+                ? visionMission.visionText.split('\n').map((point, index) => (
+                    <li key={index}>{point}</li>
+                  ))
+                : "To be a globally recognized center of educational excellence, fostering innovative thinking and creating leaders who positively impact society."
+              }
             </p>
             <div className="card-decoration"></div>
           </div>
@@ -85,10 +107,14 @@ export default function VisionMission() {
                 <polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"></polyline>
               </svg>
             </div>
-            <h2 className="card-title">Our Mission</h2>
+            <h2 className="card-title">{visionMission.missionTitle || "Our Mission"}</h2>
             <p className="card-text">
-              To provide transformative educational experiences that prepare students for success in a diverse and
-              interconnected world.
+              {visionMission.missionText
+                ? visionMission.missionText.split('\n').map((point, index) => (
+                    <li key={index}>{point}</li>
+                  ))
+                : "To provide transformative educational experiences that prepare students for success in a diverse and interconnected world."
+              }
             </p>
             <div className="card-decoration"></div>
           </div>
@@ -97,4 +123,3 @@ export default function VisionMission() {
     </section>
   )
 }
-

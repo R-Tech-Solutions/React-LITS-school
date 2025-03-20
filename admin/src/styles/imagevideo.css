@@ -5,6 +5,8 @@
     margin: 0 auto;
     background-color: #f8f9fa;
     border-radius: 8px;
+    text-align: left;
+    color: #002a45;
 }
 
 .image-video-form {
@@ -57,6 +59,38 @@
     margin-bottom: 20px;
 }
 
+.image-preview, .video-preview {
+    width: 150px;
+    height: auto;
+    margin: 10px;
+  }
+  
+  .sub-images, .sub-videos {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+  
+  .sub-image-preview, .sub-video-preview {
+    width: 100px;
+    height: auto;
+    border-radius: 5px;
+  }
+  
+  .image-video-form-button {
+    width: auto;
+    color: #fff;
+    background-color: #71c2ff;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+  }
+  
+  .image-video-form-button:hover {
+    background-color: #0056b3;
+  }
+  
+
 .button-container {
     display: flex;
     justify-content: space-between;
@@ -64,25 +98,38 @@
 
 .edit-button,
 .delete-button {
+    margin-top: 30px;
     padding: 5px 15px;
     border-radius: 5px;
     cursor: pointer;
 }
 
 .edit-button {
-    background-color: #007bff;
-    color: white;
+    background-color: green;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  cursor: pointer;
+  border-radius: 5px;
+  flex: 1;
+  margin-right: 5px;
 }
 
 .delete-button {
-    background-color: #dc3545;
+    background-color: red;
     color: white;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    border-radius: 5px;
+    flex: 1;
+    margin-left: 5px;
 }
 
 .edit-button:hover {
-    background-color: #0056b3;
+    background-color: #014b11;
 }
 
 .delete-button:hover {
-    background-color: #c82333;
-}
+    background-color: rgb(148, 1, 1);
+} 
