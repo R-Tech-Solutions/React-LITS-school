@@ -4,7 +4,7 @@ import { FaHome, FaBookOpen, FaVideo,FaEye, FaBars, FaTimes, FaSignOutAlt, FaEnv
 import "./styles/admin.css"
 
 // Import pages
-import Dashboard from "./pages/Dashboard"
+// import Dashboard from "./pages/Dashboard"
 import Courses from "./pages/Courses"
 import Lectures from "./pages/Lectures"
 import VisionMission from "./pages/VisionMission"
@@ -59,7 +59,7 @@ function AdminPanel() {
       {isLoggedIn && location.pathname !== "/login" && (
         <div className={`sidebar ${sidebarOpen ? "open" : "closed"} ${sidebarOpen ? "slide-in" : "slide-out"}`}>
           <div className="sidebar-header">
-            <h2>EduAdmin</h2>
+            <h2>LITS SCHOOL</h2>
             <button className="toggle-btn" onClick={toggleSidebar}>
               {sidebarOpen ? <FaTimes size={20} /> : <FaBars size={20} />}
             </button>
@@ -67,10 +67,6 @@ function AdminPanel() {
           <div className="sidebar-menu">
             <Link to="/" className={`menu-item ${isActive("/")}`} onClick={handleLinkClick}>
               <FaHome size={20} />
-              <span>Dashboard</span>
-            </Link>
-            <Link to="/courses" className={`menu-item ${isActive("/courses")}`} onClick={handleLinkClick}>
-              <FaBookOpen size={20} />
               <span>Courses</span>
             </Link>
             <Link to="/lectures" className={`menu-item ${isActive("/lectures")}`} onClick={handleLinkClick}>
@@ -117,9 +113,9 @@ function AdminPanel() {
       <div className="main-content">
         <div className="content">
           <Routes>
-            <Route path="/" element={<Dashboard />} />
+            {/* <Route path="/" element={<Dashboard />} /> */}
             <Route path="/login" element={<Login onLogin={handleLogin} />}/>
-            <Route path="/courses" element={<Courses />} />
+            <Route path="/" element={<Courses />} />
             <Route path="/lectures" element={<Lectures />} />
             <Route path="/vision-mission" element={<VisionMission />} />
             {/* <Route path="/blog" element={<Blog />} /> */}
