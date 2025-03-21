@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect } from "react";
 import axios from "axios";
 import "../styles/admingallery.css";
+import { backEndURL } from "../Backendurl";
 
 export default function AdminGallery() {
     const [gallery, setGallery] = useState([]);
@@ -23,7 +24,7 @@ export default function AdminGallery() {
 
     useEffect(() => {
         // Fetch gallery data from backend
-        axios.get("http://localhost:3001/api/gallery")
+        axios.get(`${backEndURL}/api/gallery`)
             .then(response => setGallery(response.data))
             .catch(error => console.error("Error fetching gallery data:", error));
     }, []);
@@ -54,7 +55,7 @@ export default function AdminGallery() {
 
     const addOrUpdateCategory = (e) => {
         e.preventDefault();
-        const url = selectedCategoryId !== null ? `http://localhost:3001/api/gallery/${selectedCategoryId}` : "http://localhost:3001/api/gallery";
+        const url = selectedCategoryId !== null ? `${backEndURL}/api/gallery/${selectedCategoryId}` : `${backEndURL}/api/gallery`;
         const method = selectedCategoryId !== null ? "put" : "post";
 
         axios[method](url, newCategory)
@@ -89,7 +90,7 @@ export default function AdminGallery() {
 
     const deleteCategory = (index) => {
         const categoryId = gallery[index]._id;
-        axios.delete(`http://localhost:3001/api/gallery/${categoryId}`)
+        axios.delete(`${backEndURL}/api/gallery/${categoryId}`)
             .then(() => {
                 setGallery(gallery.filter((_, i) => i !== index));
             })

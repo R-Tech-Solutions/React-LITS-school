@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Trash2 } from 'lucide-react'; // Import the Trash2 icon from Lucide React
+import { backEndURL } from "../Backendurl";
 
 const SubmissionsList = () => {
   const [submissions, setSubmissions] = useState([]);
@@ -7,7 +8,7 @@ const SubmissionsList = () => {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    fetch('http://localhost:3001/api/mail/contact-submissions') // Update with your backend URL
+    fetch(`${backEndURL}/api/mail/contact-submissions`) // Update with your backend URL
       .then((response) => response.json())
       .then((data) => {
         if (data.success) {
@@ -75,7 +76,7 @@ const SubmissionsList = () => {
   );
 
   function handleDelete(id) {
-    fetch(`http://localhost:3001/api/mail/contact-submissions/${id}`, {
+    fetch(`${backEndURL}/api/mail/contact-submissions/${id}`, {
       method: 'DELETE',
     })
       .then((response) => response.json())

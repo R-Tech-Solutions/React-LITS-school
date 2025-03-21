@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from "react"
 import axios from "axios"
 import "./HeroSlider.css"
+import { backEndURL } from "../../Backendurl";
 
 export default function HeroSlider() {
   const [currentSlide, setCurrentSlide] = useState(0)
@@ -13,7 +14,7 @@ export default function HeroSlider() {
   useEffect(() => {
     // Fetch hero text
     axios
-      .get("http://localhost:3001/api/hero-text")
+      .get(`${backEndURL}/api/hero-text`)
       .then((response) => {
         if (response.data && response.data.length > 0) {
           setHeroText(response.data[0])
@@ -25,7 +26,7 @@ export default function HeroSlider() {
 
     // Fetch hero images
     axios
-      .get("http://localhost:3001/api/hero-image")
+      .get(`${backEndURL}/api/hero-image`)
       .then((response) => {
         const images = response.data;
         setSliderImages(images); // Set the slider images

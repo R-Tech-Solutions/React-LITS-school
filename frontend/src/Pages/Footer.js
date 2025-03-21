@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import { backEndURL } from "../Backendurl";
 
 const Footer = () => {
   const [footerData, setFooterData] = useState(null);
@@ -7,7 +8,7 @@ const Footer = () => {
   useEffect(() => {
     const fetchFooterData = async () => {
       try {
-        const response = await axios.get("http://localhost:3001/api/footer");
+        const response = await axios.get(`${backEndURL}/api/footer`);
         setFooterData(response.data);
       } catch (error) {
         console.error("Error fetching footer data:", error);

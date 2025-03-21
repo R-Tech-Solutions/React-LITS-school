@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react"
 import "./VisionMission.css"
+import { backEndURL } from "../../Backendurl";
 
 export default function VisionMission() {
   const visionRef = useRef(null)
@@ -16,7 +17,7 @@ export default function VisionMission() {
     // Fetch Vision & Mission data
     const fetchData = async () => {
       try {
-        const response = await fetch("http://localhost:3001/api/vision-mission")
+        const response = await fetch(`${backEndURL}/api/vision-mission`)
         const data = await response.json()
         if (data.length > 0) {
           setVisionMission(data[0]) // Assuming there's only one record

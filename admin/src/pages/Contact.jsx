@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { Trash2 } from 'lucide-react';
+import { backEndURL } from "../Backendurl";
 
 const ContactSubmissions = () => {
   const [submissions, setSubmissions] = useState([]);
@@ -9,7 +10,7 @@ const ContactSubmissions = () => {
   useEffect(() => {
     const fetchSubmissions = async () => {
       try {
-        const response = await axios.get('http://localhost:3001/api/contact-submissions');
+        const response = await axios.get(`${backEndURL}/api/contact-submissions`);
         setSubmissions(response.data.contactSubmissions);
       } catch (err) {
         setError('Error fetching contact submissions');
@@ -21,7 +22,7 @@ const ContactSubmissions = () => {
 
   const handleDelete = async (id) => {
     try {
-      await axios.delete(`http://localhost:3001/api/contact-submissions/${id}`);
+      await axios.delete(`${backEndURL}/api/contact-submissions/${id}`);
       setSubmissions(submissions.filter(submission => submission._id !== id));
     } catch (err) {
       setError('Error deleting contact submission');

@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
-
-const API_BASE_URL = "http://localhost:3001/api";
+import { backEndURL } from "../Backendurl";
 
 const HeroAdmin = () => {
     const [formData, setFormData] = useState({ textTitle: "", textDetails: "" });
@@ -13,12 +12,12 @@ const HeroAdmin = () => {
 
     // Fetch all hero text and images
     useEffect(() => {
-        fetch(`${API_BASE_URL}/hero-text`)
+        fetch(`${backEndURL}/api/hero-text`)
             .then((res) => res.json())
             .then((data) => setData(data))
             .catch((err) => console.error("Error fetching hero text:", err));
 
-        fetch(`${API_BASE_URL}/hero-image`)
+        fetch(`${backEndURL}/api/hero-image`)
             .then((res) => res.json())
             .then((data) => setImageData(data))
             .catch((err) => console.error("Error fetching images:", err));
@@ -33,8 +32,8 @@ const HeroAdmin = () => {
         e.preventDefault();
         const method = editingId ? "PUT" : "POST";
         const url = editingId
-            ? `${API_BASE_URL}/hero-text/${editingId}`
-            : `${API_BASE_URL}/hero-text`;
+            ? `${backEndURL}/api/hero-text/${editingId}`
+            : `${backEndURL}/api/hero-text`;
 
         try {
             const response = await fetch(url, {
@@ -67,7 +66,7 @@ const HeroAdmin = () => {
 
     const handleDelete = async (id) => {
         try {
-            const response = await fetch(`${API_BASE_URL}/hero-text/${id}`, { method: "DELETE" });
+            const response = await fetch(`${backEndURL}/api/hero-text/${id}`, { method: "DELETE" });
             if (!response.ok) throw new Error("Failed to delete data");
 
             setData(data.filter((item) => item._id !== id));
@@ -97,7 +96,7 @@ const HeroAdmin = () => {
                 return new Promise((resolve, reject) => {
                     reader.onloadend = async () => {
                         try {
-                            const response = await fetch(`${API_BASE_URL}/hero-image`, {
+                            const response = await fetch(`${backEndURL}/api/hero-image`, {
                                 method: "POST",
                                 headers: { "Content-Type": "application/json" },
                                 body: JSON.stringify({ imageData: reader.result }),
@@ -125,7 +124,7 @@ const HeroAdmin = () => {
     // Handle image deletion
     const handleImageDelete = async (id) => {
         try {
-            const response = await fetch(`${API_BASE_URL}/hero-image/${id}`, { method: "DELETE" });
+            const response = await fetch(`${backEndURL}/api/hero-image/${id}`, { method: "DELETE" });
             if (!response.ok) throw new Error("Failed to delete image");
 
             setImageData(imageData.filter((image) => image._id !== id));

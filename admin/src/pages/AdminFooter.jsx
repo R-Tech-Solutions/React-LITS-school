@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import "../styles/adminfooter.css";
+import { backEndURL } from "../Backendurl";
 
 const AdminFooter = () => {
   const [formData, setFormData] = useState({
@@ -15,7 +16,7 @@ const AdminFooter = () => {
 
   // Fetch Footer Data
   useEffect(() => {
-    axios.get("http://localhost:3001/api/footer")
+    axios.get(`${backEndURL}/api/footer`)
       .then(response => {
         const footerData = response.data;
         setFormData({
@@ -51,7 +52,7 @@ const AdminFooter = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    axios.put("http://localhost:3001/api/footer", formData)
+    axios.put(`${backEndURL}/api/footer`, formData)
       .then(response => {
         alert("Footer details updated successfully!");
         console.log("Updated Footer Details:", response.data);

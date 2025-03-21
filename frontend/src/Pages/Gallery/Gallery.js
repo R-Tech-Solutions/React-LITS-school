@@ -1,12 +1,14 @@
 import React, { useState, useEffect } from "react"
 import { X, } from "lucide-react"
 import "./Gallary.css"
+import { backEndURL } from "../../Backendurl"
+import { Commet } from "react-loading-indicators" // Import the loader component
 
 // Fetch gallery data from the backend
 const fetchGalleryData = async () => {
-  const response = await fetch("http://localhost:3001/api/gallery")
+  const response = await fetch(`${backEndURL}/api/gallery`)
   const data = await response.json()
-  return data
+  return data 
 }
 
 const preloadVideos = (items) => {
@@ -27,11 +29,13 @@ export default function Gallery() {
   const [detailPopup, setDetailPopup] = useState(null)
   const [detailAnimation, setDetailAnimation] = useState("")
   const [loadedItems, setLoadedItems] = useState([])
+  const [isLoading, setIsLoading] = useState(true) // Add loading state
 
   useEffect(() => {
     const loadGalleryData = async () => {
       const data = await fetchGalleryData()
       setGalleryData(data)
+      setIsLoading(false) // Set loading to false after data is fetched
 
       // Preload videos to reduce lag
       Object.keys(data).forEach((category) => {
@@ -406,14 +410,18 @@ export default function Gallery() {
       "Gallery",
     ),
 
-    React.createElement(
-      "div",
-      {
-        key: "gallery",
-        className: "category-grid",
-      },
-      galleryItems,
-    ),
+    isLoading
+      ? React.createElement("div", { className: "loader-container" }, // Center the loader
+          React.createElement(Commet, { color: "#11baff", size: "small" })
+        )
+      : React.createElement(
+          "div",
+          {
+            key: "gallery",
+            className: "category-grid",
+          },
+          galleryItems,
+        ),
 
     isPopupOpen && popupContent,
     detailPopup && detailPopupContent,

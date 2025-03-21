@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import axios from 'axios';  // Import Axios to make API requests
 import '../styles/blog.css';
+import { backEndURL } from "../Backendurl";
 
 const Blog = () => {
   const [formData, setFormData] = useState({
@@ -15,7 +16,7 @@ const Blog = () => {
 
   useEffect(() => {
     // Fetch blogs when the component mounts
-    axios.get('http://localhost:3001/api/blogs')
+    axios.get(`${backEndURL}/api/blogs`)
       .then((response) => {
         setBlogs(response.data);
       })
@@ -45,7 +46,7 @@ const Blog = () => {
     e.preventDefault();
     if (selectedBlogsId !== null) {
       // Update an existing blog
-      axios.put(`http://localhost:3001/api/blogs/${selectedBlogsId}`, formData)
+      axios.put(`${backEndURL}/api/blogs/${selectedBlogsId}`, formData)
         .then((response) => {
           setBlogs((prevBlogs) =>
             prevBlogs.map((blog) =>
@@ -56,7 +57,7 @@ const Blog = () => {
         .catch((error) => console.error('Error updating blog:', error));
     } else {
       // Add a new blog
-      axios.post('http://localhost:3001/api/blogs', formData)
+      axios.post(`${backEndURL}/api/blogs`, formData)
         .then((response) => {
           setBlogs((prevBlogs) => [...prevBlogs, response.data]);
         })
@@ -78,7 +79,7 @@ const Blog = () => {
   };
 
   const handleDelete = (id) => {
-    axios.delete(`http://localhost:3001/api/blogs/${id}`)
+    axios.delete(`${backEndURL}/api/blogs/${id}`)
       .then(() => {
         setBlogs((prevBlogs) => prevBlogs.filter((blog) => blog._id !== id));
       })

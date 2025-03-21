@@ -1,5 +1,6 @@
 import { Users, BookOpen, Video, FileText, TrendingUp, Calendar } from "lucide-react"
 import "../styles/dashboard.css"
+import { backEndURL } from "../Backendurl";
 
 function Dashboard() {
   // Sample data for dashboard stats
