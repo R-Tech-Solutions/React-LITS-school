@@ -59,7 +59,7 @@ function AdminPanel() {
       {isLoggedIn && location.pathname !== "/login" && (
         <div className={`sidebar ${sidebarOpen ? "open" : "closed"} ${sidebarOpen ? "slide-in" : "slide-out"}`}>
           <div className="sidebar-header">
-            <h2>LITS SCHOOL</h2>
+            <h2>LITS</h2>
             <button className="toggle-btn" onClick={toggleSidebar}>
               {sidebarOpen ? <FaTimes size={20} /> : <FaBars size={20} />}
             </button>
