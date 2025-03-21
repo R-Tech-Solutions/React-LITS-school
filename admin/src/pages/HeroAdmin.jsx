@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import "../styles/heroadmin.css";
 
 const API_BASE_URL = "http://localhost:3001/api";
 
@@ -136,17 +135,23 @@ const HeroAdmin = () => {
     };
 
     return (
-        <div className="admin-container">
+        <div style={{ padding: '20px', fontFamily: 'Arial, sans-serif' }}>
             {/* Hero Text Form */}
-            <form onSubmit={handleSubmit} className="form-box">
-                <h2 className="section-title">Edit Hero Section</h2>
+            <form onSubmit={handleSubmit} style={{ marginBottom: '30px' }}>
+                <h2 style={{ fontSize: '24px', marginBottom: '15px' }}>Edit Hero Section</h2>
                 <input
                     type="text"
                     name="textTitle"
                     value={formData.textTitle}
                     onChange={handleInputChange}
                     placeholder="Type Your Title"
-                    className="input-field"
+                    style={{
+                        width: '100%',
+                        padding: '10px',
+                        marginBottom: '10px',
+                        borderRadius: '5px',
+                        border: '1px solid #ccc',
+                    }}
                     required
                 />
                 <textarea
@@ -154,42 +159,107 @@ const HeroAdmin = () => {
                     value={formData.textDetails}
                     onChange={handleInputChange}
                     placeholder="Type Your Description"
-                    className="textarea-field"
+                    style={{
+                        width: '100%',
+                        padding: '10px',
+                        marginBottom: '20px',
+                        borderRadius: '5px',
+                        border: '1px solid #ccc',
+                        minHeight: '100px',
+                    }}
                     required
                 ></textarea>
-                <button type="submit" className="save-btn">
+                <button type="submit" style={{
+                    padding: '10px 20px',
+                    backgroundColor: '#4CAF50',
+                    color: 'white',
+                    border: 'none',
+                    borderRadius: '5px',
+                    cursor: 'pointer',
+                }}>
                     {editingId ? "Update" : "Save"}
                 </button>
             </form>
 
             {/* Display Hero Text */}
-            <div className="display-container">
+            <div style={{ display: 'flex', flexWrap: 'wrap' }}>
                 {data.map((item) => (
-                    <div key={item._id} className="card">
+                    <div key={item._id} style={{
+                        width: '250px',
+                        padding: '15px',
+                        margin: '10px',
+                        border: '1px solid #ccc',
+                        borderRadius: '5px',
+                        boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)',
+                    }}>
                         <p><strong>{item.textTitle}</strong></p>
                         <p>{item.textDetails}</p>
-                        <div className="card-buttons">
-                            <button onClick={() => handleEdit(item._id)} className="edit-btn">EDIT</button>
-                            <button onClick={() => handleDelete(item._id)} className="delete-btn">DELETE</button>
+                        <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                            <button onClick={() => handleEdit(item._id)} style={{
+                                padding: '5px 10px',
+                                backgroundColor: '#ffa500',
+                                color: 'white',
+                                border: 'none',
+                                borderRadius: '5px',
+                                cursor: 'pointer',
+                            }}>EDIT</button>
+                            <button onClick={() => handleDelete(item._id)} style={{
+                                padding: '5px 10px',
+                                backgroundColor: '#f44336',
+                                color: 'white',
+                                border: 'none',
+                                borderRadius: '5px',
+                                cursor: 'pointer',
+                            }}>DELETE</button>
                         </div>
                     </div>
                 ))}
             </div>
 
             {/* Hero Image Upload */}
-            <div className="image-container">
-                <h2 className="section-title">Edit Hero Image</h2>
-                {imageData.length < 2 && <p className="error-message">You must have at least 2 images.</p>}
-                <div className="image-gallery">
+            <div style={{ marginTop: '30px' }}>
+                <h2 style={{ fontSize: '24px', marginBottom: '15px' }}>Edit Hero Image</h2>
+                {imageData.length < 2 && <p style={{ color: 'red' }}>You must have at least 2 images.</p>}
+                <div style={{ display: 'flex', flexWrap: 'wrap' }}>
                     {imageData.map((image) => (
-                        <div key={image._id} className="image-card">
-                            <img src={image.imageData} alt="Hero Section" className="hero-image" />
-                            <button onClick={() => handleImageDelete(image._id)} className="delete-icon">❌</button>
+                        <div key={image._id} style={{
+                            width: '200px',
+                            height: '200px',
+                            margin: '10px',
+                            position: 'relative',
+                            borderRadius: '5px',
+                            overflow: 'hidden',
+                            boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)',
+                        }}>
+                            <img src={image.imageData} alt="Hero Section" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                            <button onClick={() => handleImageDelete(image._id)} style={{
+                                position: 'absolute',
+                                top: '5px',
+                                right: '5px',
+                                backgroundColor: 'rgba(255, 255, 255, 0.6)',
+                                border: 'none',
+                                padding: '5px',
+                                borderRadius: '50%',
+                                cursor: 'pointer',
+                            }}>❌</button>
                         </div>
                     ))}
                 </div>
-                <input type="file" accept="image/*" onChange={handleFileChange} className="file-input" multiple />
-                <button onClick={handleUpload} className="upload-btn">Upload</button>
+                <input
+                    type="file"
+                    accept="image/*"
+                    onChange={handleFileChange}
+                    style={{ marginBottom: '20px' }}
+                    multiple
+                />
+                <button onClick={handleUpload} style={{
+                    padding: '10px 20px',
+                    backgroundColor: '#4CAF50',
+                    color: 'white',
+                    border: 'none',
+                    borderRadius: '5px',
+                    cursor: 'pointer',
+                }}>Upload</button>
             </div>
         </div>
     );

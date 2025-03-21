@@ -7,7 +7,7 @@ import { Link } from "react-router-dom";
 import { backEndURL } from "../Backendurl";
 import Courses from "./Courses";
 import Gallary from "./Gallery/Gallery"
-import Features from "./Features/Features";
+// import Features from "./Features/Features";
 import Heroslider from "./HeroSlider/HeroSlider";
 import VisionMission from "./VisionMission/VisionMission";
 import "../App.css";
@@ -193,10 +193,8 @@ const Home = () => {
             {/* ===================== COURSES COMPONENT===================== */}
             <Courses />
             <Gallary />
-            <Features />
+            {/* <Features /> */}
             <LecturersSection />
-
-
         </>
     );
 };

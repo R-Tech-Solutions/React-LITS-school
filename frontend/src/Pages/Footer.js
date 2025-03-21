@@ -61,7 +61,6 @@ const Footer = () => {
               {col.content.map((item, idx) => (
                 <li key={idx}>
                   <i className={item.icon}></i> {item.text}
-                  <i className="fas fa-trash-alt delete-icon"></i>
                 </li>
               ))}
             </ul>

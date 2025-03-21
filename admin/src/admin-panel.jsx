@@ -8,7 +8,7 @@ import Dashboard from "./pages/Dashboard"
 import Courses from "./pages/Courses"
 import Lectures from "./pages/Lectures"
 import VisionMission from "./pages/VisionMission"
-import Blog from "./pages/Blog"
+// import Blog from "./pages/Blog"
 import HeroAdmin from "./pages/HeroAdmin"
 import AdminFooter from "./pages/AdminFooter"
 import AdminGallery from "./pages/AdminGallery"
@@ -60,10 +60,10 @@ function AdminPanel() {
             <FaEye size={20} />
             <span>Vision & Mission</span>
           </Link>
-          <Link to="/blog" className={`menu-item ${isActive("/blog")}`} onClick={handleLinkClick}>
+          {/* <Link to="/blog" className={`menu-item ${isActive("/blog")}`} onClick={handleLinkClick}>
             <FaFileAlt size={20} />
             <span>Blog</span>
-          </Link>
+          </Link> */}
           <Link to="/heroadmin" className={`menu-item ${isActive("/heroadmin")}`} onClick={handleLinkClick}>
             <FaUser size={20} />
             <span>Hero</span>
@@ -100,7 +100,7 @@ function AdminPanel() {
             <Route path="/courses" element={<Courses />} />
             <Route path="/lectures" element={<Lectures />} />
             <Route path="/vision-mission" element={<VisionMission />} />
-            <Route path="/blog" element={<Blog />} />
+            {/* <Route path="/blog" element={<Blog />} /> */}
             <Route path="/heroadmin" element={<HeroAdmin />} />
             <Route path="/adminfooter" element={<AdminFooter/>}/>
             <Route path="/admingallery" element={<AdminGallery/>}/>

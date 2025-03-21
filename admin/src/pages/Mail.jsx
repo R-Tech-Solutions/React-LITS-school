@@ -28,41 +28,44 @@ const SubmissionsList = () => {
   if (error) return <p>{error}</p>;
 
   return (
-    <div>
-      <h2>Submissions</h2>
-      <table border="1">
+    <div style={styles.container}>
+      <h2 style={styles.heading}>Submissions</h2>
+      <table style={styles.table}>
         <thead>
-          <tr>
-            <th>Name</th>
-            <th>Email</th>
-            <th>Mobile</th>
-            <th>Address</th>
-            <th>Date</th>
-            <th>Gender</th>
-            <th>Guardian Name</th>
-            <th>Guardian Relation</th>
-            <th>Guardian Mobile</th>
-            <th>Class</th>
-            <th>Section</th>
-            <th>Action</th>
+          <tr style={styles.tableHeaderRow}>
+            <th style={styles.tableHeader}>Name</th>
+            <th style={styles.tableHeader}>Email</th>
+            <th style={styles.tableHeader}>Mobile</th>
+            <th style={styles.tableHeader}>Address</th>
+            <th style={styles.tableHeader}>Date</th>
+            <th style={styles.tableHeader}>Gender</th>
+            <th style={styles.tableHeader}>Guardian Name</th>
+            <th style={styles.tableHeader}>Guardian Relation</th>
+            <th style={styles.tableHeader}>Guardian Mobile</th>
+            <th style={styles.tableHeader}>Class</th>
+            <th style={styles.tableHeader}>Section</th>
+            <th style={styles.tableHeader}>Action</th>
           </tr>
         </thead>
         <tbody>
           {submissions.map((submission) => (
-            <tr key={submission._id}>
-              <td>{submission.firstName} {submission.lastName}</td>
-              <td>{submission.email}</td>
-              <td>{submission.mobile}</td>
-              <td>{submission.address}</td>
-              <td>{submission.dob}</td>
-              <td>{submission.gender}</td>
-              <td>{submission.guardianName}</td>
-              <td>{submission.guardianRelation}</td>
-              <td>{submission.guardianMobile}</td>
-              <td>{submission.classValue}</td>
-              <td>{submission.sectionValue}</td>
-              <td>
-                <Trash2 onClick={() => handleDelete(submission._id)} style={{ cursor: 'pointer' }} />
+            <tr key={submission._id} style={styles.tableRow}>
+              <td style={styles.tableCell}>{submission.firstName} {submission.lastName}</td>
+              <td style={styles.tableCell}>{submission.email}</td>
+              <td style={styles.tableCell}>{submission.mobile}</td>
+              <td style={styles.tableCell}>{submission.address}</td>
+              <td style={styles.tableCell}>{submission.dob}</td>
+              <td style={styles.tableCell}>{submission.gender}</td>
+              <td style={styles.tableCell}>{submission.guardianName}</td>
+              <td style={styles.tableCell}>{submission.guardianRelation}</td>
+              <td style={styles.tableCell}>{submission.guardianMobile}</td>
+              <td style={styles.tableCell}>{submission.classValue}</td>
+              <td style={styles.tableCell}>{submission.sectionValue}</td>
+              <td style={styles.tableCell}>
+                <Trash2 
+                  onClick={() => handleDelete(submission._id)} 
+                  style={styles.deleteIcon}
+                />
               </td>
             </tr>
           ))}
@@ -87,6 +90,57 @@ const SubmissionsList = () => {
         console.error('Error deleting submission:', error);
       });
   }
+};
+
+const styles = {
+  container: {
+    padding: '20px',
+    backgroundColor: '#f9f9f9',
+    borderRadius: '8px',
+    boxShadow: '0 2px 8px rgba(0, 0, 0, 0.1)',
+    overflowX: 'hidden', // Added overflowX: 'hidden'
+  },
+  heading: {
+    fontSize: '24px',
+    color: '#333',
+    marginBottom: '20px',
+    textAlign: 'center',
+  },
+  table: {
+    width: '100%',
+    borderCollapse: 'collapse',
+    marginBottom: '20px',
+    overflowX: 'hidden',
+  },
+  tableHeaderRow: {
+    backgroundColor: '#4CAF50',
+    color: 'white',
+    overflowX: 'hidden',
+  },
+  tableHeader: {
+    padding: '12px 15px',
+    textAlign: 'center',
+    fontWeight: 'bold',
+    border: '1px solid #ddd',
+  },
+  tableRow: {
+    backgroundColor: '#fff',
+    borderBottom: '1px solid #ddd',
+    overflowX: 'hidden',
+  },
+  tableCell: {
+    padding: '12px 15px',
+    textAlign: 'center',
+    border: '1px solid #ddd',
+    overflowX: 'hidden',
+  },
+  deleteIcon: {
+    cursor: 'pointer',
+    color: '#FF4D4D',
+    fontSize: '20px',
+    transition: 'color 0.3s',
+    overflowX: 'hidden',
+  },
 };
 
 export default SubmissionsList;

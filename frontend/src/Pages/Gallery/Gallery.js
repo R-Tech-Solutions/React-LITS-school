@@ -106,6 +106,7 @@ export default function Gallery() {
         if (videoElement) {
           videoElement.src = item;
           videoElement.load(); // Ensure it loads before playing
+          videoElement.muted = true; // Mute the video
           videoElement.oncanplay = () => videoElement.play();
         }
       }, 100); // Add a short delay
@@ -130,6 +131,7 @@ export default function Gallery() {
         if (videoElement) {
           videoElement.src = item;
           videoElement.load();
+          videoElement.muted = true; // Mute the video
           videoElement.oncanplay = () => videoElement.play();
         }
       }, 5);
@@ -232,6 +234,7 @@ export default function Gallery() {
                 className: "detail-video",
                 controls: true,
                 autoPlay: true,
+                muted: true, // Mute the video
               }),
           ),
         ],
@@ -311,21 +314,23 @@ export default function Gallery() {
                       React.createElement(
                         "div",
                         {
-                          key: `img-container-${index}`, // Add unique key
+                          key: `img-container-${index}`, // Unique key
                           className: "gallery-item-container",
                         },
                         item.includes("data:image")
                           ? React.createElement("img", {
-                            src: item,
-                            className: "gallery-item-image",
-                          })
+                              src: item,
+                              className: "gallery-item-image",
+                            })
                           : React.createElement("video", {
-                            src: item,
-                            className: "gallery-item-video",
-                            controls: true,
-                          }),
+                              src: item,
+                              className: "gallery-item-video",
+                              controls: true,
+                              muted: true, // Mute the video
+                              autoPlay: true, // Optional: autoplay the video
+                              loop: true, // Optional: loop the video
+                            })
                       ),
-
                     ],
                   ),
                 ),
@@ -370,6 +375,7 @@ export default function Gallery() {
                             className: "preview-video fit-to-card", // Add class to fit the video to the card
                             controls: true,
                             autoPlay: true,
+                            muted: true, // Mute the video
                           }),
                       ]
                       : React.createElement(
